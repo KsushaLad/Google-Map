@@ -1,6 +1,5 @@
 package com.example.map.googlemap.network.response
 
-
 import com.google.gson.annotations.SerializedName
 import com.example.map.googlemap.network.BaseResponse
 
@@ -14,6 +13,7 @@ data class PlaceResponse(
     @SerializedName("status")
     val status: String?
 ) : BaseResponse {
+
     data class Result(
         @SerializedName("business_status")
         val businessStatus: String?,
@@ -46,12 +46,14 @@ data class PlaceResponse(
         @SerializedName("user_ratings_total")
         val userRatingsTotal: Int?
     ) {
+
         data class Geometry(
             @SerializedName("location")
             val location: Location?,
             @SerializedName("viewport")
             val viewport: Viewport?
         ) {
+
             data class Location(
                 @SerializedName("lat")
                 val lat: Double,
@@ -65,6 +67,7 @@ data class PlaceResponse(
                 @SerializedName("southwest")
                 val southwest: Southwest?
             ) {
+
                 data class Northeast(
                     @SerializedName("lat")
                     val lat: Double?,

@@ -18,6 +18,10 @@ class SelectPlaceBottomDialog :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        reverseGeocodeState()
+    }
+
+    private fun reverseGeocodeState(){
         binding.run {
             mapVM = mapViewModel
             mapViewModel.liveReverseGeocodeState.observe(viewLifecycleOwner, Observer {
@@ -26,10 +30,8 @@ class SelectPlaceBottomDialog :
                     is NetworkState.Loading -> showLoadingPopup()
                     is NetworkState.Success -> {
                         if (!it.item.results.isNullOrEmpty()) {
-
                             result = it.item.results[0]
                             mapViewModel.setPlaceType(it.item.results[0]?.types)
-
                         }
                     }
                 }
@@ -43,6 +45,5 @@ class SelectPlaceBottomDialog :
 
     companion object {
         fun getInstance() = SelectPlaceBottomDialog()
-
     }
 }

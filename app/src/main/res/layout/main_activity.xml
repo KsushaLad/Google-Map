@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.example.map.googlemap.data.source.enums.SearchType" />
-
         <import type="android.view.View" />
-
         <variable
             name="mapVM"
             type="com.example.map.googlemap.vm.MapViewModel" />
@@ -18,18 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
-
-        <!--        <androidx.appcompat.widget.AppCompatImageView-->
-<!--            android:id="@+id/iv_dark_mode"-->
-<!--            onShortBlockClick="@{() -> mapVM.changeUiMode()}"-->
-<!--            android:layout_width="@dimen/toolbar_height"-->
-<!--            android:layout_height="@dimen/toolbar_height"-->
-<!--            android:layout_marginHorizontal="24dp"-->
-<!--            android:layout_marginVertical="@dimen/places_autocomplete_powered_by_google_separator_start"-->
-<!--            android:background="@drawable/ic_dark_mode"-->
-<!--            android:foreground="?attr/selectableItemBackground"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_map"
@@ -73,7 +58,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="10минута" />
-
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +100,8 @@
                 android:text="@{mapVM.liveStartLocationVO.addressName.length() == 0 ? mapVM.liveStartLocationVO.name : mapVM.liveStartLocationVO.addressName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cl_upper_rectangle"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnusedAttribute" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="1dp"
@@ -155,8 +140,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cl_lower_rectangle"
-                app:layout_constraintTop_toBottomOf="@+id/tv_departure" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tv_departure"
+                tools:ignore="UnusedAttribute" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -171,7 +156,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="invisible" />
+            tools:visibility="invisible"
+            tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cancel_driving"
@@ -185,7 +171,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_zoom_in"
@@ -197,7 +184,8 @@
             android:foreground="?attr/selectableItemBackground"
             android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintBottom_toTopOf="@+id/tv_cancel_driving"
-            app:layout_constraintEnd_toEndOf="@+id/tv_start_driving" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_start_driving"
+            tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_zoom_out"
@@ -209,8 +197,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintBottom_toTopOf="@+id/tv_cancel_driving"
-            app:layout_constraintEnd_toStartOf="@+id/iv_zoom_in" />
-
+            app:layout_constraintEnd_toStartOf="@+id/iv_zoom_in"
+            tools:ignore="UnusedAttribute" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

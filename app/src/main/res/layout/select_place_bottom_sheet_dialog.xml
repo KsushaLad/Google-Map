@@ -4,15 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="mapVM"
             type="com.example.map.googlemap.vm.MapViewModel" />
-
         <variable
             name="result"
             type="com.example.map.googlemap.network.response.ReverseGeocodeResponse.Result" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +53,8 @@
             android:padding="8dp"
             android:text="@string/setting_departure"
             app:layout_constraintEnd_toStartOf="@+id/tv_departure"
-            app:layout_constraintTop_toBottomOf="@id/tv_desc" />
+            app:layout_constraintTop_toBottomOf="@id/tv_desc"
+            tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_departure"
@@ -68,8 +66,8 @@
             android:padding="8dp"
             android:text="@string/setting_destination"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_destination" />
+            app:layout_constraintTop_toTopOf="@+id/tv_destination"
+            tools:ignore="UnusedAttribute" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

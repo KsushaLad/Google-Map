@@ -4,8 +4,7 @@ import com.example.map.googlemap.data.source.remote.RemoteDirectionDataSourceImp
 import com.example.map.googlemap.network.response.DirectionResponse
 import io.reactivex.Single
 
-class DirectionRepository(private val remoteDirectionDataSourceImpl: RemoteDirectionDataSourceImpl) :
-    DirectionDataSource {
+class DirectionRepository(private val remoteDirectionDataSourceImpl: RemoteDirectionDataSourceImpl) : DirectionDataSource {
     override fun getDriveCourse(origin: String, destination: String): Single<DirectionResponse> =
         remoteDirectionDataSourceImpl.getDriveCourse(origin, destination)
 }

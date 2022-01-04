@@ -1,7 +1,7 @@
 package com.example.map.googlemap.data.source.remote
 
 import com.example.map.googlemap.data.source.GeocodeDataSource
-import com.example.map.googlemap.ext.networkDispatchToMainThread
+import com.example.map.googlemap.extensions.networkDispatchToMainThread
 import com.example.map.googlemap.network.api.GeocodeAPI
 import com.example.map.googlemap.network.response.GeocodeResponse
 import com.example.map.googlemap.network.response.PlaceResponse

@@ -15,7 +15,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        tools:ignore="UnusedAttribute">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_name"
@@ -36,7 +37,5 @@
             android:maxLines="1"
             tools:text="Seoul paris london" />
 
-
     </LinearLayout>
-
 </layout>

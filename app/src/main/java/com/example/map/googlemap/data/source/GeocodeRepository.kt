@@ -6,8 +6,7 @@ import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse
 import io.reactivex.Single
 
-class GeocodeRepository(private val remoteGeocodeDataSourceImpl: RemoteGeocodeDataSourceImpl) :
-    GeocodeDataSource {
+class GeocodeRepository(private val remoteGeocodeDataSourceImpl: RemoteGeocodeDataSourceImpl) : GeocodeDataSource {
 
     override fun getLocationUseAddress(address: String): Single<GeocodeResponse> =
         remoteGeocodeDataSourceImpl.getLocationUseAddress(address)

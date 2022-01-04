@@ -1,7 +1,7 @@
 package com.example.map.googlemap.data.source.remote
 
 import com.example.map.googlemap.data.source.DirectionDataSource
-import com.example.map.googlemap.ext.networkDispatchToMainThread
+import com.example.map.googlemap.extensions.networkDispatchToMainThread
 import com.example.map.googlemap.network.api.DirectionAPI
 import com.example.map.googlemap.network.response.DirectionResponse
 import io.reactivex.Single

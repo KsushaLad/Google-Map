@@ -4,23 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-
         <import type="androidx.recyclerview.widget.LinearLayoutManager" />
-
         <variable
             name="searchPlaceVM"
             type="com.example.map.googlemap.vm.SearchLocationViewModel" />
-
         <variable
             name="searchPlaceAdapter"
             type="com.example.map.googlemap.adapter.SearchPlaceAdapter" />
-
         <variable
             name="recentSearchAdapter"
             type="com.example.map.googlemap.base.ui.SimpleRecyclerView.Adapter" />
-
     </data>
 
     <LinearLayout
@@ -44,7 +38,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_delete"
+                tools:ignore="UnusedAttribute" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_toolbar_title"
@@ -69,8 +64,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_delete" />
-
+                app:srcCompat="@drawable/ic_delete"
+                tools:ignore="UnusedAttribute" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +90,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_search"
+                tools:ignore="UnusedAttribute" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_keyword"
@@ -117,7 +113,6 @@
                 app:layout_constraintEnd_toStartOf="@id/iv_search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -125,7 +120,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="@{searchPlaceVM.liveKeyword.length() == 0  &amp;&amp; searchPlaceVM.liveLocalLocations.size() != 0 ? View.VISIBLE : View.GONE}"
-            android:weightSum="2">
+            android:weightSum="2"
+            tools:ignore="DisableBaselineAlignment">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -142,7 +138,6 @@
                     android:padding="5dp"
                     android:text="@string/tv_recent_search_list"
                     tools:visibility="visible" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -161,9 +156,7 @@
                     android:padding="5dp"
                     android:text="@string/tv_delete_all_search_list"
                     tools:visibility="visible" />
-
             </LinearLayout>
-
         </LinearLayout>
 
         <FrameLayout
@@ -194,7 +187,6 @@
                 tools:itemCount="20"
                 tools:listitem="@layout/recent_search_place_item" />
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -216,9 +208,6 @@
                     app:srcCompat="@drawable/ic_sketch_symbol" />
 
             </LinearLayout>
-
         </FrameLayout>
-
     </LinearLayout>
-
 </layout>

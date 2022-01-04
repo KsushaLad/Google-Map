@@ -2,8 +2,8 @@ package com.example.map.googlemap.data.source.local
 
 import com.example.map.googlemap.data.source.LocalSearchPlaceDataSource
 import com.example.map.googlemap.data.source.vo.LocationVO
-import com.example.map.googlemap.ext.fromJson
-import com.example.map.googlemap.ext.toJsonString
+import com.example.map.googlemap.extensions.fromJson
+import com.example.map.googlemap.extensions.toJsonString
 import com.example.map.googlemap.utils.PrefUtils
 
 class RecentSearchDataSourceImpl(

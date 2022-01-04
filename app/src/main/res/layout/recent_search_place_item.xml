@@ -3,11 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="location"
             type="com.example.map.googlemap.data.source.vo.LocationVO" />
-
     </data>
 
     <LinearLayout
@@ -17,7 +15,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        tools:ignore="UnusedAttribute">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_name"
@@ -39,7 +38,5 @@
             android:maxLines="1"
             android:text="@{location.addressName}"
             tools:text="Seoul paris london" />
-
     </LinearLayout>
-
 </layout>

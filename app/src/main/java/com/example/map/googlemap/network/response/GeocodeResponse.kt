@@ -1,6 +1,5 @@
 package com.example.map.googlemap.network.response
 
-
 import com.google.gson.annotations.SerializedName
 import com.example.map.googlemap.network.BaseResponse
 
@@ -10,6 +9,7 @@ data class GeocodeResponse(
     @SerializedName("status")
     val status: String?
 ): BaseResponse {
+
     data class Result(
         @SerializedName("address_components")
         val addressComponents: List<AddressComponent?>?,
@@ -24,6 +24,7 @@ data class GeocodeResponse(
         @SerializedName("types")
         val types: List<String?>?
     ) {
+
         data class AddressComponent(
             @SerializedName("long_name")
             val longName: String?,
@@ -41,6 +42,7 @@ data class GeocodeResponse(
             @SerializedName("viewport")
             val viewport: Viewport?
         ) {
+
             data class Location(
                 @SerializedName("lat")
                 val lat: Double?,
@@ -54,6 +56,7 @@ data class GeocodeResponse(
                 @SerializedName("southwest")
                 val southwest: Southwest?
             ) {
+
                 data class Northeast(
                     @SerializedName("lat")
                     val lat: Double?,

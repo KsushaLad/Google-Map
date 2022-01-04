@@ -8,6 +8,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Google-Map/app/src/main/res/layout/custom_toast.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/loading_dialog.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/main_activity.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/recent_search_place_item.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/search_place_dialog.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/search_place_item.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/select_place_bottom_sheet_dialog.xml" value="0.5541666666666667" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable-v24/shape_badge_bg.xml" value="0.5615384615384615" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable/ic_directions_car.xml" value="0.5615384615384615" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable/shape_badge_blue_bg.xml" value="0.5615384615384615" />

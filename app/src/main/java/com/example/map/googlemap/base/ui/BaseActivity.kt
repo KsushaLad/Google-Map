@@ -18,7 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.map.googlemap.R
 import com.example.map.googlemap.base.navigator.BaseNavigator
-import com.example.map.googlemap.ext.dip
+import com.example.map.googlemap.extensions.dip
 import com.example.map.googlemap.ui.dialog.LoadingDialog
 import io.reactivex.disposables.CompositeDisposable
 

@@ -19,9 +19,9 @@ import com.example.map.googlemap.base.ui.BaseActivity
 import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.databinding.MainActivityBinding
-import com.example.map.googlemap.ext.dip
-import com.example.map.googlemap.ext.enableTransparentStatusBar
-import com.example.map.googlemap.ext.nonNull
+import com.example.map.googlemap.extensions.dip
+import com.example.map.googlemap.extensions.enableTransparentStatusBar
+import com.example.map.googlemap.extensions.nonNull
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
@@ -51,78 +51,100 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         super.onCreate(savedInstanceState)
         initView()
         initMap()
+        bindingObservers()
+    }
+
+    private fun bindingObservers() { //подписки на наблюдателей
         binding.mapVM = mapViewModel
         mapViewModel.run {
-
-            liveGeocodeState.observe(this@MainActivity, Observer { //состояние геокодирования в реальном времени
-                when (it) {
-                    is NetworkState.Init -> hideLoadingPopup()
-                    is NetworkState.Loading -> showLoadingPopup()
-                    is NetworkState.Success -> it.item.toString()
-                }
-            })
-
-            liveStartLocationVO.observe(this@MainActivity, Observer { //начало пути
-                if (selectBottomDialog.isAdded) {
-                    selectBottomDialog.onCloseClick()
-                }
-                showToast(getString(R.string.toast_complete_departure))
-                checkToReadyDriving(liveStartLocationVO.value, liveDestinationLocationVO.value)
-            })
-
-            liveDestinationLocationVO.observe(this@MainActivity, Observer { //конец пути
-                if (selectBottomDialog.isAdded) {
-                    selectBottomDialog.onCloseClick()
-                }
-                showToast(getString(R.string.toast_complete_destination))
-                checkToReadyDriving(liveStartLocationVO.value, liveDestinationLocationVO.value)
-            })
-
-            liveDirectionState.observe(this@MainActivity, Observer { //прокладывание пути между двумя точками
-                if (!::googleMap.isInitialized) return@Observer
-                when (it) {
-                    is NetworkState.Init -> hideLoadingPopup() //скрытие загрузки всплывающего окна
-                    is NetworkState.Loading -> showLoadingPopup() //показание загрузки всплывающего окна
-                    is NetworkState.Success -> {
-                        val directionVO: MutableList<DirectionVO> = getDirectionsVO(it.item.routes)
-                        saveDirectionInfo(directionVO)
-                        val polylines = directionVO.flatMap { it.latLng }
-                        if (polylines.isNotEmpty()) {
-                            drawOverViewPolyline(polylines)
-                            addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                            startDrivingAnim(liveDirectionVO.value, polylines[0])
-                        } else {
-                            showToast(getString(R.string.toast_no_driving_route))
-                        }
-                    }
-                }
-            })
-
-            liveIsDrivingStarted.nonNull().observe(this@MainActivity, Observer { //начало движения
-                if (!it) {
-                    clearMap()
-                }
-            })
-
-            liveSearchType.observe(this@MainActivity, Observer { //тип поиска в реальном времени
-                it?.let {
-                    val searchType: SearchType = when (it) {
-                        SearchType.SOURCE -> SearchType.SOURCE
-                        SearchType.DESTINATION -> SearchType.DESTINATION
-                    }
-                    SearchPlaceDialog.getInstance(searchType,
-                        onPlaceClickListener = { locationVO ->
-                            when (searchType) {
-                                SearchType.SOURCE -> mapViewModel.setDeparture(locationVO)
-                                SearchType.DESTINATION -> mapViewModel.setDestination(locationVO)
-                            }
-                            addOneMarker(locationVO.latLng)
-                            moveCamera(locationVO.latLng)
-                        })
-                        .show(supportFragmentManager, "")
-                }
-            })
+            geocodeStateLive()
+            startLocationVOLive()
+            destinationLocationVOLive()
+            directionStateLive()
+            isDrivingStartedLive()
+            searchTypeLive()
         }
+    }
+
+    private fun searchTypeLive() { //тип поиска в реальном времени
+        mapViewModel.liveSearchType.observe(this@MainActivity, Observer {
+            it?.let {
+                val searchType: SearchType = when (it) {
+                    SearchType.SOURCE -> SearchType.SOURCE
+                    SearchType.DESTINATION -> SearchType.DESTINATION
+                }
+                SearchPlaceDialog.getInstance(searchType,
+                    onPlaceClickListener = { locationVO ->
+                        when (searchType) {
+                            SearchType.SOURCE -> mapViewModel.setDeparture(locationVO)
+                            SearchType.DESTINATION -> mapViewModel.setDestination(locationVO)
+                        }
+                        addOneMarker(locationVO.latLng)
+                        moveCamera(locationVO.latLng)
+                    })
+                    .show(supportFragmentManager, "")
+            }
+        })
+    }
+
+    private fun isDrivingStartedLive() { //начало движения
+        mapViewModel.liveIsDrivingStarted.nonNull().observe(this@MainActivity, Observer {
+            if (!it) {
+                clearMap()
+            }
+        })
+    }
+
+    private fun directionStateLive() { //прокладывание пути между двумя точками
+        mapViewModel.liveDirectionState.observe(this@MainActivity, Observer {
+            if (!::googleMap.isInitialized) return@Observer
+            when (it) {
+                is NetworkState.Init -> hideLoadingPopup() //скрытие загрузки всплывающего окна
+                is NetworkState.Loading -> showLoadingPopup() //показание загрузки всплывающего окна
+                is NetworkState.Success -> {
+                    val directionVO: MutableList<DirectionVO> = getDirectionsVO(it.item.routes)
+                    mapViewModel.saveDirectionInfo(directionVO)
+                    val polylines = directionVO.flatMap { it.latLng }
+                    if (polylines.isNotEmpty()) {
+                        drawOverViewPolyline(polylines)
+                        addStartEndMarker(polylines[0], polylines[polylines.size - 1])
+                        startDrivingAnim(mapViewModel.liveDirectionVO.value, polylines[0])
+                    } else {
+                        showToast(getString(R.string.toast_no_driving_route))
+                    }
+                }
+            }
+        })
+    }
+
+    private fun destinationLocationVOLive() { //конец пути
+        mapViewModel.liveDestinationLocationVO.observe(this@MainActivity, Observer {
+            if (selectBottomDialog.isAdded) {
+                selectBottomDialog.onCloseClick()
+            }
+            showToast(getString(R.string.toast_complete_destination))
+            mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+        })
+    }
+
+    private fun startLocationVOLive() { //начало пути
+        mapViewModel.liveStartLocationVO.observe(this@MainActivity, Observer {
+            if (selectBottomDialog.isAdded) {
+                selectBottomDialog.onCloseClick()
+            }
+            showToast(getString(R.string.toast_complete_departure))
+            mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+        })
+    }
+
+    private fun geocodeStateLive() { //состояние геокодирования в реальном времени
+        mapViewModel.liveGeocodeState.observe(this@MainActivity, Observer {
+            when (it) {
+                is NetworkState.Init -> hideLoadingPopup()
+                is NetworkState.Loading -> showLoadingPopup()
+                is NetworkState.Success -> it.item.toString()
+            }
+        })
     }
 
     private fun addStartEndMarker(departure: LatLng, destination: LatLng): Pair<Marker, Marker> { //добавление маркера в начало и конец
@@ -229,8 +251,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         routes?.forEach {
             it?.legs?.forEach {
                 mapViewModel.liveAllArriveTime.value = it?.duration?.text
-                it?.steps?.forEachIndexed { idx, it ->
-                    it?.let {
+                it?.steps?.forEachIndexed { idx, step ->
+                    step?.let {
                         val latLngs = PolylineEncoding.decode(it.polyline.points)
                         directionVO.add(
                             DirectionVO(
@@ -294,7 +316,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             }
         }
 
-
         val locationRequest = LocationRequest().setInterval(10000).setFastestInterval(5000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
@@ -315,7 +336,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             )
         } ?: throw NullPointerException(getString(R.string.error_no_location))
     }
-
 
     private fun moveCamera(latLng: LatLng?, zoom: Float) { //перемещении камеры
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
@@ -358,10 +378,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         return false
     }
 
-
     override fun onMyLocationClick(location: Location) {
     }
-
 
     override fun onMapLongClick(latLng: LatLng?) { //долгий клик по карте
         if (mapViewModel.liveIsDrivingStarted.value == true) return

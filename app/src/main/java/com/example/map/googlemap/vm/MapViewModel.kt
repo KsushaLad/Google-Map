@@ -10,8 +10,8 @@ import com.example.map.googlemap.data.source.GeocodeRepository
 import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.data.source.vo.LocationVO
-import com.example.map.googlemap.ext.nonNull
-import com.example.map.googlemap.ext.toParam
+import com.example.map.googlemap.extensions.nonNull
+import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.network.response.GeocodeResponse

@@ -1,6 +1,5 @@
 package com.example.map.googlemap.network.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class ReverseGeocodeResponse(
@@ -11,6 +10,7 @@ data class ReverseGeocodeResponse(
     @SerializedName("status")
     val status: String?
 ) {
+
     data class PlusCode(
         @SerializedName("compound_code")
         val compoundCode: String?,
@@ -32,6 +32,7 @@ data class ReverseGeocodeResponse(
         @SerializedName("types")
         val types: List<String?>?
     ) {
+
         data class AddressComponent(
             @SerializedName("long_name")
             val longName: String?,
@@ -51,12 +52,14 @@ data class ReverseGeocodeResponse(
             @SerializedName("viewport")
             val viewport: Viewport?
         ) {
+
             data class Bounds(
                 @SerializedName("northeast")
                 val northeast: Northeast?,
                 @SerializedName("southwest")
                 val southwest: Southwest?
             ) {
+
                 data class Northeast(
                     @SerializedName("lat")
                     val lat: Double?,
@@ -85,6 +88,7 @@ data class ReverseGeocodeResponse(
                 @SerializedName("southwest")
                 val southwest: Southwest?
             ) {
+
                 data class Northeast(
                     @SerializedName("lat")
                     val lat: Double?,

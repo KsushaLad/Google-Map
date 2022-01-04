@@ -37,9 +37,8 @@ class SearchPlaceDialog :
             })
     }
 
-    private val recentAdapter by lazy {
-        object :
-            SimpleRecyclerView.Adapter<LocationVO, RecentSearchPlaceItemBinding>(
+    private val recentAdapter by lazy { //недавний адаптер
+        object : SimpleRecyclerView.Adapter<LocationVO, RecentSearchPlaceItemBinding>(
                 R.layout.recent_search_place_item,
                 BR.location
             ) {
@@ -63,7 +62,12 @@ class SearchPlaceDialog :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindingElelments()
+        placeStateLive()
+        searchItemLive()
+    }
 
+    private fun bindingElelments(){
         binding.run {
             searchPlaceVM = searchLocationViewModel
             searchPlaceAdapter = searchAdapter
@@ -93,14 +97,16 @@ class SearchPlaceDialog :
 
             etKeyword.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                     searchLocationViewModel.onSearchClick()
+                    searchLocationViewModel.onSearchClick()
                 }
                 true
             }
 
             ivExit.setOnClickListener { onCloseClick() }
         }
+    }
 
+    private fun placeStateLive(){
         searchLocationViewModel.livePlaceState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is NetworkState.Init -> hideLoadingPopup()
@@ -111,7 +117,9 @@ class SearchPlaceDialog :
                 }
             }
         })
+    }
 
+    private fun searchItemLive(){
         searchLocationViewModel.liveSearchItems.observe(viewLifecycleOwner, Observer {
             it?.observe(viewLifecycleOwner, Observer {
                 searchAdapter.submitList(it)
@@ -120,7 +128,6 @@ class SearchPlaceDialog :
             }
         })
     }
-
 
     companion object {
         private const val REQUEST_SEARCH_TYPE = "REQUEST_SEARCH_TYPE"
