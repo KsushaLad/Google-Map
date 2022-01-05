@@ -52,5 +52,7 @@
     <color name="yellow">#f4c822</color>
     <color name="yellow_light">#fbda3d</color>
     <color name="error">#7359FF</color>
+    <color name="violet_shape_badge">#7359FF</color>
+    <color name="stroke_shape_badge">#4200AA</color>
 
 </resources>

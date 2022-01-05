@@ -34,6 +34,7 @@ import com.tedpark.tedpermission.rx2.TedRx2Permission
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.search_place_dialog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.ext.scope
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -231,8 +232,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             getCarBitmap(
                 resources,
                 R.drawable.icon_car_maker,
-                dip(28),
-                dip(28)
+                dip(38),
+                dip(38)
             )
         )
         return googleMap.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
@@ -369,7 +370,12 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     override fun onMapReady(googleMap: GoogleMap?) { //готовность карты
         googleMap?.let {
             this.googleMap = it
-            googleMap.setPadding(dip(20), dip(20), dip(20), dip(20))
+            googleMap.setPadding(
+                dip(30),
+                dip(70),
+                dip(10),
+                dip(70)
+            )
             checkPermissions()
         }
     }

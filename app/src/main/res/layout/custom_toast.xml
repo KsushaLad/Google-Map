@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_toast_text"
         style="@style/H3BoldWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/margin_start_custom_toast"
+        android:layout_marginEnd="@dimen/margin_start_custom_toast"
         android:background="@color/primary_200"
-        android:padding="16dp"
-        tools:text="Установлен новый пароль" />
-
+        android:padding="@dimen/margin_start_custom_toast"
+        tools:text="@string/password" />
 </FrameLayout>

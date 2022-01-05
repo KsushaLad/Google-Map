@@ -17,23 +17,26 @@
             type="com.example.map.googlemap.base.ui.SimpleRecyclerView.Adapter" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_200"
-        android:orientation="vertical">
+        android:background="@color/gray_200">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/white">
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="16dp"
+                android:padding="@dimen/margin_start_custom_toast"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +44,10 @@
                 app:srcCompat="@drawable/ic_delete"
                 tools:ignore="UnusedAttribute" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_toolbar_title"
                 style="@style/H2BoldBlack"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_main_activity"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center"
@@ -53,14 +56,14 @@
                 app:layout_constraintEnd_toStartOf="@id/iv_exit"
                 app:layout_constraintStart_toEndOf="@id/iv_back"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="toolbar title" />
+                tools:text="@string/title" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="16dp"
+                android:padding="@dimen/margin_start_custom_toast"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -71,12 +74,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="13dp"
-            android:background="@drawable/bg_search_selector">
+            android:layout_height="@dimen/height"
+            android:layout_marginStart="@dimen/margin_start_custom_toast"
+            android:layout_marginTop="@dimen/radius_shape_bage"
+            android:layout_marginEnd="@dimen/margin_start_custom_toast"
+            android:layout_marginBottom="@dimen/radius_shape_bage"
+            android:background="@drawable/bg_search_selector"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_search"
@@ -85,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="12dp"
+                android:padding="@dimen/padding_search_place"
                 android:tint="@{searchPlaceVM.liveKeyword.length() > 0 ? @color/gray_800 : @color/gray_200}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,19 +99,19 @@
                 app:srcCompat="@drawable/ic_search"
                 tools:ignore="UnusedAttribute" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_keyword"
                 style="@style/H3RegularBlack"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/width_main_activity"
+                android:layout_height="@dimen/width_main_activity"
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="@string/search_address"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:lines="1"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
+                android:paddingStart="@dimen/padding_search_place"
+                android:paddingEnd="@dimen/padding_search_place"
                 android:text="@={searchPlaceVM.liveKeyword}"
                 android:textColorHint="@color/gray_500"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -115,53 +121,70 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="@{searchPlaceVM.liveKeyword.length() == 0  &amp;&amp; searchPlaceVM.liveLocalLocations.size() != 0 ? View.VISIBLE : View.GONE}"
-            android:weightSum="2"
-            tools:ignore="DisableBaselineAlignment">
+            android:paddingBottom="@dimen/padding_main"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginBottom="@dimen/margin_top"
+            tools:ignore="DisableBaselineAlignment"
+            app:layout_constraintTop_toBottomOf="@id/cl_search">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_list"
+                android:layout_width="@dimen/width_main_activity"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="@dimen/margin_start_search_place_dialog"
+                android:paddingTop="@dimen/margin_top">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/H3RegularBlack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="13dp"
-                    android:padding="5dp"
+                    android:layout_marginHorizontal="@dimen/margin_start_custom_toast"
+                    android:layout_marginBottom="@dimen/margin_bottom_search_place_dialog"
+                    android:padding="@dimen/margin_top"
                     android:text="@string/tv_recent_search_list"
-                    tools:visibility="visible" />
-            </LinearLayout>
+                    tools:visibility="visible"
+                    tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/delete"
+                android:layout_width="@dimen/width_main_activity"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end">
+                android:gravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints"
+                android:layout_marginEnd="@dimen/margin_start_search_place_dialog"
+                android:paddingTop="@dimen/margin_top">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     style="@style/H3RegularBlack"
                     onShortBlockClick="@{() -> searchPlaceVM.clearLocalLocations()}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="13dp"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin_top"
+                    android:gravity="end"
                     android:text="@string/tv_delete_all_search_list"
                     tools:visibility="visible" />
-            </LinearLayout>
-        </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/buttons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_content_search"
@@ -187,27 +210,41 @@
                 tools:itemCount="20"
                 tools:listitem="@layout/recent_search_place_item" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="@{searchPlaceVM.liveIsResultZero &amp;&amp; searchPlaceVM.liveKeyword.length() != 0 ? View.VISIBLE : View.GONE}">
+                android:layout_marginTop="@dimen/width_search"
+                android:visibility="@{searchPlaceVM.liveIsResultZero &amp;&amp; searchPlaceVM.liveKeyword.length() != 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/no_results"
                     style="@style/H2BoldBlack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_no_results" />
+                    android:layout_margin="@dimen/radius_cursor"
+                    android:padding="@dimen/margin_start_search_place_dialog"
+                    android:text="@string/tv_no_results"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="41dp"
-                    android:layout_marginBottom="77dp"
+                    android:layout_width="@dimen/width_search_place"
+                    android:layout_height="@dimen/width_search_place"
+                    android:layout_margin="@dimen/radius_cursor"
+                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginBottom="@dimen/bottom_margin"
+                    android:padding="@dimen/margin_start_search_place_dialog"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/no_results"
                     app:srcCompat="@drawable/ic_sketch_symbol" />
-
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

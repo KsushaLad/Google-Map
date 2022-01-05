@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -8,14 +9,14 @@
             type="com.example.map.googlemap.data.source.vo.LocationVO" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:padding="@dimen/margin_horizontal_main_activity"
         tools:ignore="UnusedAttribute">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -23,20 +24,26 @@
             style="@style/H3BoldBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/padding_main"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{location.name}"
-            tools:text="Location name" />
+            tools:text="@string/location" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_address"
             style="@style/H4RegularBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_top_search_place"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/padding_main"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{location.addressName}"
-            tools:text="Seoul paris london" />
-    </LinearLayout>
+            tools:text="@string/search" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

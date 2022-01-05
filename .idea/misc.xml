@@ -8,13 +8,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Google-Map/app/src/main/res/drawable-v24/cursor_color.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable-v24/ic_sketch_symbol.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable-v24/shape_badge_bg.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/background_minutes.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/bg_search_disabled.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/bg_search_focus.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/bg_search_normal.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/bg_search_selector.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/ic_arrow_drop_down.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/ic_launcher_background.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/ic_search.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/ic_zoom_in.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/ic_zoom_out.xml" value="0.55" />
+        <entry key="..\:/Google-Map/app/src/main/res/drawable/shape_badge_blue_bg.xml" value="0.55" />
         <entry key="..\:/Google-Map/app/src/main/res/layout/custom_toast.xml" value="0.5541666666666667" />
         <entry key="..\:/Google-Map/app/src/main/res/layout/loading_dialog.xml" value="0.5541666666666667" />
-        <entry key="..\:/Google-Map/app/src/main/res/layout/main_activity.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/main_activity.xml" value="0.5" />
         <entry key="..\:/Google-Map/app/src/main/res/layout/recent_search_place_item.xml" value="0.5541666666666667" />
-        <entry key="..\:/Google-Map/app/src/main/res/layout/search_place_dialog.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/search_place_dialog.xml" value="0.5" />
         <entry key="..\:/Google-Map/app/src/main/res/layout/search_place_item.xml" value="0.5541666666666667" />
-        <entry key="..\:/Google-Map/app/src/main/res/layout/select_place_bottom_sheet_dialog.xml" value="0.5541666666666667" />
+        <entry key="..\:/Google-Map/app/src/main/res/layout/select_place_bottom_sheet_dialog.xml" value="0.5" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable-v24/shape_badge_bg.xml" value="0.5615384615384615" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable/ic_directions_car.xml" value="0.5615384615384615" />
         <entry key="..\:/GrabSample-master/app/src/main/res/drawable/shape_badge_blue_bg.xml" value="0.5615384615384615" />

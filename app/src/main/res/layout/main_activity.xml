@@ -19,8 +19,8 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/width_main_activity"
+            android:layout_height="@dimen/width_main_activity"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -28,46 +28,55 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
             android:layout_marginVertical="?attr/actionBarSize"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="60dp"
-            android:background="@color/white"
+            android:layout_marginStart="@dimen/margin_start_main_activity"
+            android:layout_marginTop="@dimen/margin_top_main_activity"
+            android:background="@drawable/background_minutes"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="@dimen/padding_main_activity"
             android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/time_"
                 style="@style/H3BoldBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_main"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:text="@string/tv_estimated_driving_time" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@{mapVM.liveAllArriveTime}"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:padding="@dimen/padding_main"
+                app:layout_constraintTop_toBottomOf="@id/time_"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="@dimen/text_size_main_activity"
                 android:textStyle="bold"
-                tools:text="10минута" />
-        </LinearLayout>
+                tools:text="@string/minutes" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/width_main_activity"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/margin_start_custom_toast"
             android:layout_marginTop="?attr/actionBarSize"
-            android:layout_marginBottom="20dp"
-            android:background="@color/white"
+            android:layout_marginBottom="@dimen/width_search"
+            android:background="@drawable/background_minutes"
             android:visibility="@{mapVM.liveIsDrivingStarted ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/tv_start_driving"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,27 +84,27 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_upper_rectangle"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="@dimen/width_main"
+                android:layout_height="@dimen/width_main"
+                android:layout_marginStart="@dimen/margin_start_custom_toast"
                 android:background="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_departure"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_departure" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_departure"
                 style="@style/H4RegularBlack"
                 onShortBlockClick="@{() -> mapVM.onSearchClick(SearchType.SOURCE)}"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_main_activity"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_main_activity"
+                android:layout_marginTop="@dimen/margin_horizontal_main_activity"
                 android:background="@color/gray_200"
                 android:ellipsize="end"
                 android:foreground="?attr/selectableItemBackground"
                 android:hint="@string/search_departure"
-                android:padding="8dp"
+                android:padding="@dimen/margin_horizontal_main_activity"
                 android:singleLine="true"
                 android:text="@{mapVM.liveStartLocationVO.addressName.length() == 0 ? mapVM.liveStartLocationVO.name : mapVM.liveStartLocationVO.addressName}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,8 +113,8 @@
                 tools:ignore="UnusedAttribute" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="1dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/width_stroke"
+                android:layout_height="@dimen/width_main_activity"
                 android:background="@color/black"
                 app:layout_constraintBottom_toTopOf="@+id/cl_lower_rectangle"
                 app:layout_constraintEnd_toEndOf="@+id/cl_upper_rectangle"
@@ -114,27 +123,27 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_lower_rectangle"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="@dimen/width_main"
+                android:layout_height="@dimen/width_main"
+                android:layout_marginStart="@dimen/margin_start_custom_toast"
                 android:background="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_destination"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_destination" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_destination"
                 style="@style/H4RegularBlack"
                 onShortBlockClick="@{() -> mapVM.onSearchClick(SearchType.DESTINATION)}"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_main_activity"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_main_activity"
+                android:layout_marginVertical="@dimen/margin_horizontal_main_activity"
                 android:background="@color/gray_200"
                 android:ellipsize="end"
                 android:foreground="?attr/selectableItemBackground"
                 android:hint="@string/search_destination"
-                android:padding="8dp"
+                android:padding="@dimen/margin_horizontal_main_activity"
                 android:singleLine="true"
                 android:text="@{mapVM.liveDestinationLocationVO.addressName.length() == 0 ? mapVM.liveDestinationLocationVO.name : mapVM.liveDestinationLocationVO.addressName}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +153,7 @@
                 tools:ignore="UnusedAttribute" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_start_driving"
             style="@style/FloatingBottomButton"
             onShortBlockClick="@{() -> mapVM.startDriving()}"
@@ -159,7 +168,7 @@
             tools:visibility="invisible"
             tools:ignore="UnusedAttribute" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_cancel_driving"
             style="@style/FloatingBottomButton"
             onShortBlockClick="@{() -> mapVM.stopDriving()}"
@@ -179,7 +188,7 @@
             onShortBlockClick="@{() -> mapVM.onZoomInClick()}"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="@dimen/margin_horizontal_main_activity"
             android:background="@drawable/ic_zoom_in"
             android:foreground="?attr/selectableItemBackground"
             android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
@@ -192,7 +201,7 @@
             onShortBlockClick="@{() -> mapVM.onZoomOutClick()}"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="@dimen/margin_horizontal_main_activity"
             android:background="@drawable/ic_zoom_out"
             android:foreground="?attr/selectableItemBackground"
             android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
