@@ -39,7 +39,7 @@ class SelectPlaceBottomDialog :
         }
     }
 
-    fun searchLocation(latLng: LatLng) {
+     fun searchLocation(latLng: LatLng) {
         mapViewModel.getLocationUseLatLng("${latLng.latitude},${latLng.longitude}")
     }
 

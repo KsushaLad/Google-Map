@@ -38,7 +38,6 @@ android {
         unitTests.returnDefaultValues = true
     }
     dataBinding {
-
         enabled = true
     }
 }
@@ -47,49 +46,29 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    testImplementation testImplementations.jUnit
-    androidTestImplementation androidTestImplementations.testRunner
-    androidTestImplementation androidTestImplementations.espressoCore
-    testImplementation testImplementations.mockitoKotlin
-    testImplementation testImplementations.mockitoInline
-
-    implementation libraries.material
-
-    implementation libraries.preference
-    implementation libraries.appcompat
-    implementation libraries.coreKTX
-    implementation libraries.constraintLayout
-
-    implementation libraries.rxJava2RxAndroid
-    implementation libraries.rxJava2RxJava
-
-    implementation libraries.loggingInterceptor
-    implementation libraries.okHttp
-    implementation libraries.retrofit2AdapterRxJava2
-    implementation libraries.retrofit2ConverterGson
-    implementation libraries.retrofit2
-
-    implementation libraries.glide
-    annotationProcessor annotationProcessors.glidCompiler
-
-    implementation libraries.koinScope
-    implementation libraries.koinViewModel
-    implementation libraries.koinFragment
-    testImplementation testImplementations.koinTest
-
-    implementation libraries.gson
-
-    implementation libraries.securePreference
-
-    implementation libraries.lottie
-
-    implementation libraries.rxBinding
-
-    implementation libraries.googleMap
-    implementation libraries.places
-
-    implementation libraries.tedPermission
-
-    implementation libraries.paging
-
+    implementation "com.google.android.material:material:1.5.0-alpha02"
+    implementation "androidx.preference:preference-ktx:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.2"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.1"
+    implementation "com.squareup.okhttp3:okhttp:3.9.1"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+    implementation "org.koin:koin-androidx-scope:2.1.5"
+    implementation "org.koin:koin-androidx-viewmodel:2.1.5"
+    implementation "org.koin:koin-androidx-fragment:2.1.5"
+    implementation "com.google.code.gson:gson:2.8.2"
+    implementation "com.scottyab:secure-preferences-lib:0.1.4"
+    implementation "com.airbnb.android:lottie:4.0.0"
+    implementation "com.jakewharton.rxbinding3:rxbinding:3.1.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.libraries.places:places:2.5.0"
+    implementation "gun0912.ted:tedpermission-rx2:2.2.3"
+    implementation "android.arch.paging:runtime:2.1.2"
 }

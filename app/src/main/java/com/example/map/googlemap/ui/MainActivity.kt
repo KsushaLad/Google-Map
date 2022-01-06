@@ -35,6 +35,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.search_place_dialog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.ext.scope
+import kotlin.math.absoluteValue
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -236,7 +237,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                 dip(38)
             )
         )
-        return googleMap.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
+        return googleMap.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)
+        )
     }
 
     private fun drawOverViewPolyline(routes: List<LatLng>) { //рисование линии поверх карты
@@ -347,7 +349,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     @SuppressLint("MissingPermission")
-    private fun getCurrentLocation() { //текущее местоположение
+    private fun getCurrentLocation(){ //текущее местоположение
         mapViewModel.run {
             googleMap.setOnMyLocationButtonClickListener(this@MainActivity)
             googleMap.setOnMyLocationClickListener(this@MainActivity)

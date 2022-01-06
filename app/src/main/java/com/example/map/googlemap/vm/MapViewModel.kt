@@ -1,5 +1,6 @@
 package com.example.map.googlemap.vm
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
@@ -27,55 +28,40 @@ class MapViewModel(
 
     private val _liveSelectPlaceType = MutableLiveData<String>()
     val liveSelectPlaceType: LiveData<String> get() = _liveSelectPlaceType //выбор тип выбранного места
-
     val liveAllArriveTime = MutableLiveData<String>() //время прибытия
-
     var zoom: Float = 16f
-
     var observableDrive: Observable<Long> = Observable.interval(500, 500, TimeUnit.MILLISECONDS)
-
     var isAvailabilityLocation = false //доступность местоположения
-
     var carMarker: Marker? = null
     var carCurrLatLng: LatLng? = null
     var carPreviousLatLng: LatLng? = null
-
     var currLatLng: LatLng? = null
-
     private var _liveSearchType = MutableLiveData<SearchType>()
     val liveSearchType: LiveData<SearchType> get() = _liveSearchType //тип поиска
-
     private var _liveIsDrivingPossible = MutableLiveData<Boolean>().apply { value = false }
     val liveIsDrivingStarted get() = _liveIsDrivingPossible
-
     private var _liveDirectionVO = MutableLiveData<List<DirectionVO>>()
     val liveDirectionVO: LiveData<List<DirectionVO>> get() = _liveDirectionVO //направление
-
     private var _liveIsEnabledDriving =
         MutableLiveData<Boolean>().nonNull().apply { value = false }
     val liveIsEnabledDriving: LiveData<Boolean> get() = _liveIsEnabledDriving
-
     private var _liveStartLocationVO = MutableLiveData<LocationVO>()
     val liveStartLocationVO: LiveData<LocationVO> get() = _liveStartLocationVO
-
     private var _liveDestinationLocationVO = MutableLiveData<LocationVO>()
     val liveDestinationLocationVO: LiveData<LocationVO> get() = _liveDestinationLocationVO
-
     private val _liveGeocodeState =
         MutableLiveData<NetworkState<GeocodeResponse>>().apply { value = NetworkState.init() }
     val liveGeocodeState: LiveData<NetworkState<GeocodeResponse>> get() = _liveGeocodeState //состояние геокодирования
-
     private val _liveReverseGeocodeState =
         MutableLiveData<NetworkState<ReverseGeocodeResponse>>().apply {
             value = NetworkState.init()
         }
     val liveReverseGeocodeState: LiveData<NetworkState<ReverseGeocodeResponse>> get() = _liveReverseGeocodeState //состояние обратного геокодирования
-
     private val _liveDirectionState =
         MutableLiveData<NetworkState<DirectionResponse>>().apply { value = NetworkState.init() }
     val liveDirectionState: LiveData<NetworkState<DirectionResponse>> get() = _liveDirectionState //состояние направления
 
-    fun getLocationUseLatLng(latLng: String) { //получение местоположения используя долготу и широту
+   fun getLocationUseLatLng(latLng: String) { //получение местоположения используя долготу и широту
         compositeDisposable.add(
             geocodeRepository.getLocationUseLatLng(latLng)
                 .doOnSubscribe { _liveReverseGeocodeState.value = NetworkState.loading() }
