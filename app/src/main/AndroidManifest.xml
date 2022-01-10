@@ -24,7 +24,8 @@
         android:theme="@style/NoActionBar">
         <activity
             android:name="com.example.map.googlemap.ui.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

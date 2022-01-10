@@ -1,10 +1,19 @@
 package com.example.map.googlemap.ui.dialog
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,13 +29,19 @@ import com.example.map.googlemap.databinding.SearchPlaceDialogBinding
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.vm.SearchLocationViewModel
+import kotlinx.android.synthetic.main.search_place_dialog.view.*
+import kotlinx.coroutines.coroutineScope
+import org.koin.androidx.scope.lifecycleScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchPlaceDialog :
     BaseFullSheetDialogFragment<SearchPlaceDialogBinding>(R.layout.search_place_dialog) {
 
     var onPlaceClickListener: ((LocationVO) -> Unit)? = null
     private val searchLocationViewModel by viewModel<SearchLocationViewModel>()
+
 
     private val searchAdapter by lazy {
         SearchPlaceAdapter(
@@ -102,7 +117,30 @@ class SearchPlaceDialog :
                 true
             }
 
-            ivExit.setOnClickListener { onCloseClick() }
+            etKeyword.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override  fun afterTextChanged(p0: Editable?) {
+                    searchLocationViewModel.onSearchClick()
+                    etKeyword.showKeyboard()
+                }
+            })
+
+                ivExit.setOnClickListener { onCloseClick() }
+        }
+    }
+
+    fun EditText.showKeyboard() {
+        post {
+            requestFocus()
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(et_keyword, InputMethodManager.SHOW_FORCED)
+            hideKeyboard()
         }
     }
 

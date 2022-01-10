@@ -1,5 +1,6 @@
 package com.example.map.googlemap.vm
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
@@ -30,7 +31,7 @@ class SearchLocationViewModel(
         liveSearchItems.value = LivePagedListBuilder(
             SearchPlaceDataSourceFactory(
                 geocodeRepository,
-                liveKeyword.value ?: error("empty keyword"),
+                liveKeyword.value  ?: error("empty keyword"),
                 _livePlaceState,
                 compositeDisposable
             ), 10
@@ -56,5 +57,4 @@ class SearchLocationViewModel(
             liveLocalLocations.value = emptyList()
         }
     }
-
 }

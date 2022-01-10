@@ -6,8 +6,15 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.example.map.googlemap.R
+import com.example.map.googlemap.adapter.SearchPlaceAdapter
 import com.example.map.googlemap.base.ui.BaseActivity
 import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.DirectionVO
@@ -30,9 +38,15 @@ import com.example.map.googlemap.utils.PolylineEncoding
 import com.example.map.googlemap.utils.SimpleAnimator
 import com.example.map.googlemap.utils.getCarBitmap
 import com.example.map.googlemap.vm.MapViewModel
+import com.example.map.googlemap.vm.SearchLocationViewModel
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.material.internal.TextWatcherAdapter
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.search_place_dialog.*
+import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.ext.scope
 import kotlin.math.absoluteValue
@@ -49,11 +63,13 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private val mapViewModel by viewModel<MapViewModel>()
     private val selectBottomDialog by lazy { SelectPlaceBottomDialog.getInstance() }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
         initMap()
         bindingObservers()
+
     }
 
     private fun bindingObservers() { //подписки на наблюдателей
@@ -260,8 +276,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                         directionVO.add(
                             DirectionVO(
                                 latLngs,
-                                it.duration?.text,
-                                it.distance?.text,
+                                it.duration?.text, //длительность
+                                it.distance?.text, //расстояние
                                 idx
                             )
                         )
@@ -399,7 +415,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     private fun addOneMarker(latLng: LatLng) { //добавление одного маркера
-        googleMap.clear()
+        //googleMap.clear()
         googleMap.addMarker(MarkerOptions().position(latLng).flat(true))
+
     }
 }

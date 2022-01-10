@@ -105,7 +105,6 @@ class MapViewModel(
         _liveIsEnabledDriving.value = departureLocationVO != null && destinationLocationVO != null
     }
 
-
     fun startDriving() { //начало поездки
         compositeDisposable.add(directionRepository.getDriveCourse(
             liveStartLocationVO.value?.latLng?.toParam().toString(),
