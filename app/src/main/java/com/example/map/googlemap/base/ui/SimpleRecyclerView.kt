@@ -1,6 +1,6 @@
 package com.example.map.googlemap.base.ui
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +18,7 @@ abstract class SimpleRecyclerView {
 
         val items = mutableListOf<ITEM>()
 
+        @SuppressLint("NotifyDataSetChanged")
         fun replaceAll(items: List<ITEM>?) {
             items?.let {
                 this.items.run {
@@ -70,13 +71,8 @@ abstract class SimpleRecyclerView {
                 }
                 itemView.visibility = View.VISIBLE
             } catch (e: Exception) {
-                Log.e(TAG, "onError onBindViewHolder", e)
                 itemView.visibility = View.GONE
             }
         }
-    }
-    companion object {
-        @JvmStatic
-        val TAG: String = SimpleRecyclerView::class.java.simpleName
     }
 }

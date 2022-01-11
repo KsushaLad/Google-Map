@@ -1,9 +1,7 @@
 package com.example.map.googlemap.ui.dialog
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -11,9 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,22 +22,19 @@ import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.LocationVO
 import com.example.map.googlemap.databinding.RecentSearchPlaceItemBinding
 import com.example.map.googlemap.databinding.SearchPlaceDialogBinding
+import com.example.map.googlemap.extensions.showKeyboard
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.vm.SearchLocationViewModel
 import kotlinx.android.synthetic.main.search_place_dialog.view.*
-import kotlinx.coroutines.coroutineScope
-import org.koin.androidx.scope.lifecycleScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 class SearchPlaceDialog :
     BaseFullSheetDialogFragment<SearchPlaceDialogBinding>(R.layout.search_place_dialog) {
 
     var onPlaceClickListener: ((LocationVO) -> Unit)? = null
     private val searchLocationViewModel by viewModel<SearchLocationViewModel>()
-
 
     private val searchAdapter by lazy {
         SearchPlaceAdapter(
@@ -63,8 +56,7 @@ class SearchPlaceDialog :
             ): SimpleRecyclerView.ViewHolder<RecentSearchPlaceItemBinding> {
                 return super.onCreateViewHolder(parent, viewType).apply {
                     itemView.setOnClickListener {
-                        val item =
-                            searchLocationViewModel.liveLocalLocations.value?.get(adapterPosition)
+                        val item = searchLocationViewModel.liveLocalLocations.value?.get(adapterPosition)
                         item?.let {
                             onPlaceClickListener?.invoke(item)
                         } ?: error(getString(R.string.error_no_adapter_item))
@@ -131,16 +123,7 @@ class SearchPlaceDialog :
                 }
             })
 
-                ivExit.setOnClickListener { onCloseClick() }
-        }
-    }
-
-    fun EditText.showKeyboard() {
-        post {
-            requestFocus()
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(et_keyword, InputMethodManager.SHOW_FORCED)
-            hideKeyboard()
+            ivExit.setOnClickListener { onCloseClick() }
         }
     }
 

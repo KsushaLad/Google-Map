@@ -37,7 +37,6 @@ abstract class BaseBottomSheetDialogFragment<B : ViewDataBinding>(private val la
         dismiss()
     }
 
-
     override fun networkError(errorCode: String) {
         if (isAdded) {
             (activity as? BaseActivity<*>)?.networkError(errorCode)

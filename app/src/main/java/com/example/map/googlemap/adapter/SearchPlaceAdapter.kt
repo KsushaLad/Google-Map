@@ -15,15 +15,13 @@ class SearchPlaceAdapter(private val onPlaceClickListener: ((LocationVO) -> Unit
     PagedListAdapter<PlaceResponse.Result, RecyclerView.ViewHolder>(SearchPlaceDialog.POST_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return object : BaseViewHolder<PlaceResponse.Result, SearchPlaceItemBinding>(
-            R.layout.search_place_item, parent) {
+        return object : BaseViewHolder<PlaceResponse.Result, SearchPlaceItemBinding>(R.layout.search_place_item, parent) {
             init {
                 itemView.setOnClickListener {
                     val item = getItem(adapterPosition)
                     val location = item?.geometry?.location
                     location?.let {
-                        val locationVO =
-                            LocationVO(LatLng(it.lat, it.lng), item.formattedAddress, item.name)
+                        val locationVO = LocationVO(LatLng(it.lat, it.lng), item.formattedAddress, item.name)
                         onPlaceClickListener?.invoke(locationVO)
                     }
                 }

@@ -4,17 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,34 +14,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.example.map.googlemap.R
-import com.example.map.googlemap.adapter.SearchPlaceAdapter
 import com.example.map.googlemap.base.ui.BaseActivity
 import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.databinding.MainActivityBinding
 import com.example.map.googlemap.extensions.dip
 import com.example.map.googlemap.extensions.enableTransparentStatusBar
-import com.example.map.googlemap.extensions.nonNull
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
 import com.example.map.googlemap.ui.dialog.SelectPlaceBottomDialog
 import com.example.map.googlemap.utils.PolylineEncoding
-import com.example.map.googlemap.utils.SimpleAnimator
-import com.example.map.googlemap.utils.getCarBitmap
 import com.example.map.googlemap.vm.MapViewModel
-import com.example.map.googlemap.vm.SearchLocationViewModel
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.material.internal.TextWatcherAdapter
 import com.tedpark.tedpermission.rx2.TedRx2Permission
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.search_place_dialog.*
 import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.ext.scope
-import kotlin.math.absoluteValue
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -63,13 +44,11 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private val mapViewModel by viewModel<MapViewModel>()
     private val selectBottomDialog by lazy { SelectPlaceBottomDialog.getInstance() }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
         initMap()
         bindingObservers()
-
     }
 
     private fun bindingObservers() { //подписки на наблюдателей
@@ -79,9 +58,14 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             startLocationVOLive()
             destinationLocationVOLive()
             directionStateLive()
-            isDrivingStartedLive()
             searchTypeLive()
         }
+    }
+
+    private fun cameraAtPoline(latLng: LatLng) {
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.5f).build()
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        mapViewModel.zoom
     }
 
     private fun searchTypeLive() { //тип поиска в реальном времени
@@ -105,14 +89,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         })
     }
 
-    private fun isDrivingStartedLive() { //начало движения
-        mapViewModel.liveIsDrivingStarted.nonNull().observe(this@MainActivity, Observer {
-            if (!it) {
-                clearMap()
-            }
-        })
-    }
-
     private fun directionStateLive() { //прокладывание пути между двумя точками
         mapViewModel.liveDirectionState.observe(this@MainActivity, Observer {
             if (!::googleMap.isInitialized) return@Observer
@@ -126,7 +102,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     if (polylines.isNotEmpty()) {
                         drawOverViewPolyline(polylines)
                         addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                        startDrivingAnim(mapViewModel.liveDirectionVO.value, polylines[0])
+                        cameraAtPoline(polylines[(polylines.size - 1) / 2])
                     } else {
                         showToast(getString(R.string.toast_no_driving_route))
                     }
@@ -177,84 +153,12 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
-    private fun startDrivingAnim(directionsVO: List<DirectionVO>?, latLng: LatLng) { //начало анимации движения
-        directionsVO?.let {
-            if (it.isNotEmpty()) {
-                mapViewModel.carCurrLatLng = latLng
-                mapViewModel.carMarker = addCarMarker(latLng)
-            }
-            updateCarMarker(it)
-        } ?: run {
-            mapViewModel.liveIsDrivingStarted.value = false
-        }
-    }
-
-    private fun updateCarMarker(directionsVO: List<DirectionVO>) { //обновление маркера автомобиля
-        val allLatLngs = directionsVO.flatMap { it.latLng }
-        val allLatLngLength = allLatLngs.size
-        if (allLatLngLength == 1) {
-            if (mapViewModel.carCurrLatLng == allLatLngs[0]) {
-                showToast(getString(R.string.toast_no_route_same_departure_destination))
-                return
-            }
-        }
-        mapViewModel.liveIsDrivingStarted.value = true
-        compositeDisposable.add(
-            mapViewModel.observableDrive
-                .take(allLatLngLength.toLong())
-                .takeWhile { mapViewModel.liveIsDrivingStarted.value == true }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { cnt ->
-                    if (mapViewModel.carMarker != null) {
-                        if (mapViewModel.carPreviousLatLng == null) {
-                            mapViewModel.carPreviousLatLng = mapViewModel.carCurrLatLng
-                            moveCamera(mapViewModel.carCurrLatLng, mapViewModel.zoom)
-                        } else {
-                            SimpleAnimator.carStartAnim().apply {
-                                mapViewModel.carPreviousLatLng = mapViewModel.carCurrLatLng
-                                mapViewModel.carCurrLatLng = allLatLngs[cnt.toInt()]
-                                addUpdateListener { animator ->
-                                    if (mapViewModel.carCurrLatLng != null && mapViewModel.carPreviousLatLng != null) {
-                                        val factor = animator.animatedFraction.toDouble()
-                                        val nextLocation = LatLng(
-                                            factor * mapViewModel.carCurrLatLng!!.latitude + (1 - factor) * mapViewModel.carPreviousLatLng!!.latitude,
-                                            factor * mapViewModel.carCurrLatLng!!.longitude + (1 - factor) * mapViewModel.carPreviousLatLng!!.longitude
-                                        )
-                                        moveCamera(nextLocation, mapViewModel.zoom)
-                                        mapViewModel.carMarker?.position = nextLocation
-                                    }
-                                }
-                                if (cnt.toInt() == allLatLngLength - 1) {
-                                    Handler().postDelayed({
-                                        mapViewModel.stopDriving()
-                                        showToast(getString(R.string.toast_finish_driving))
-                                    }, 500)
-                                }
-                            }.start()
-                        }
-                    }
-                })
-    }
-
     private fun clearMap() { //очищение карты
         mapViewModel.liveAllArriveTime.value = ""
         mapViewModel.carPreviousLatLng = null
         if (::googleMap.isInitialized) {
             googleMap.clear()
         }
-    }
-
-    private fun addCarMarker(latLng: LatLng): Marker? { //добавление маркера автомобиля
-        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(
-            getCarBitmap(
-                resources,
-                R.drawable.icon_car_maker,
-                dip(38),
-                dip(38)
-            )
-        )
-        return googleMap.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)
-        )
     }
 
     private fun drawOverViewPolyline(routes: List<LatLng>) { //рисование линии поверх карты
@@ -273,14 +177,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                 it?.steps?.forEachIndexed { idx, step ->
                     step?.let {
                         val latLngs = PolylineEncoding.decode(it.polyline.points)
-                        directionVO.add(
-                            DirectionVO(
-                                latLngs,
-                                it.duration?.text, //длительность
-                                it.distance?.text, //расстояние
-                                idx
-                            )
-                        )
+                        directionVO.add(DirectionVO(latLngs, it.duration?.text, it.distance?.text, idx))
                     }
                 }
             }
@@ -317,8 +214,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     locationResult?.let { locationResult ->
                         for (location in locationResult.locations) {
                             if (latLng == null) {
-                                mapViewModel.currLatLng =
-                                    LatLng(location.latitude, location.longitude)
+                                mapViewModel.currLatLng = LatLng(location.latitude, location.longitude)
                                 moveCamera(mapViewModel.currLatLng, mapViewModel.zoom)
                                 animateCamera(mapViewModel.currLatLng)
                                 fusedLocationProviderClient.removeLocationUpdates(locationCallback)
@@ -348,11 +244,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private fun animateCamera(latLng: LatLng?) { //анимация камеры
         latLng?.let {
             val cameraPosition = CameraPosition.Builder().target(it).zoom(16f).build()
-            googleMap.animateCamera(
-                CameraUpdateFactory.newCameraPosition(
-                    cameraPosition
-                )
-            )
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         } ?: throw NullPointerException(getString(R.string.error_no_location))
     }
 
@@ -380,20 +272,14 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
 
     private fun initMap() { //инициализация карты
         clearMap()
-        val mapFragment =
-            supportFragmentManager.findFragmentById(R.id.fcv_map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.fcv_map) as SupportMapFragment
         mapFragment.getMapAsync(this@MainActivity)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) { //готовность карты
         googleMap?.let {
             this.googleMap = it
-            googleMap.setPadding(
-                dip(30),
-                dip(70),
-                dip(10),
-                dip(70)
-            )
+            googleMap.setPadding(dip(30), dip(70), dip(10), dip(70))
             checkPermissions()
         }
     }
@@ -415,8 +301,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     private fun addOneMarker(latLng: LatLng) { //добавление одного маркера
-        //googleMap.clear()
         googleMap.addMarker(MarkerOptions().position(latLng).flat(true))
-
     }
 }

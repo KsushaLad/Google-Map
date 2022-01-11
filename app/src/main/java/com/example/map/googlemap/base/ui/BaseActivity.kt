@@ -34,8 +34,7 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         layoutInflater.inflate(
             R.layout.custom_toast,
             binding.root as ViewGroup,
-            false
-        )
+            false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,11 +49,9 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
     }
 
     override fun networkError(errorCode: String) {
-
     }
 
     override fun errorHandling(errorCode: String) {
-
     }
 
     override fun showToast(resId: Int, error: Boolean) {
@@ -89,16 +86,12 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
 
     override fun showKeyboard() {
         (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            0
-        )
+            InputMethodManager.SHOW_FORCED, 0)
     }
 
     override fun hideKeyboard() {
         (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-            (currentFocus
-                ?: View(this)).windowToken, 0
-        )
+            (currentFocus ?: View(this)).windowToken, 0)
     }
 
     override fun showLoadingPopup() {

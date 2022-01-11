@@ -10,5 +10,4 @@ class RemoteDirectionDataSourceImpl(private val directionAPI: DirectionAPI) : Di
 
     override fun getDriveCourse(origin: String, destination: String): Single<DirectionResponse> =
         directionAPI.getDrivingCourse(origin, destination).networkDispatchToMainThread()
-
 }

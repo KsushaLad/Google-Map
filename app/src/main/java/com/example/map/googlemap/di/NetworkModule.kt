@@ -14,20 +14,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 const val DI_RETROFIT_NO_AUTH = "DI_RETROFIT_NO_AUTH"
-
 const val DI_RETROFIT_NO_AUTH_CLIENT = "DI_RETROFIT_NO_AUTH_CLIENT"
-
 const val TIME_OUT = 30_000L
 
 val networkModule: Module = module {
-
     factory {
         GsonConverterFactory.create() as Converter.Factory
     }
     factory {
         RxJava2CallAdapterFactory.create() as CallAdapter.Factory
     }
-
     factory(named(DI_RETROFIT_NO_AUTH_CLIENT)) {
         OkHttpClient.Builder()
             .addInterceptor {
@@ -62,7 +58,6 @@ val networkModule: Module = module {
             .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .build()
     }
-
     single(named(DI_RETROFIT_NO_AUTH)) {
         Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)

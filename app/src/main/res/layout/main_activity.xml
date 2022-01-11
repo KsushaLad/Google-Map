@@ -29,47 +29,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_horizontal"
-            android:layout_marginVertical="?attr/actionBarSize"
-            android:layout_marginStart="@dimen/margin_start_main_activity"
-            android:layout_marginTop="@dimen/margin_top_main_activity"
-            android:background="@drawable/background_minutes"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_main_activity"
-            android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/time_"
-                style="@style/H3BoldBlue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_main"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/tv_estimated_driving_time" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@{mapVM.liveAllArriveTime}"
-                android:textColor="@color/black"
-                android:padding="@dimen/padding_main"
-                app:layout_constraintTop_toBottomOf="@id/time_"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="@dimen/text_size_main_activity"
-                android:textStyle="bold"
-                tools:text="@string/minutes" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
             android:layout_width="@dimen/width_main_activity"
             android:layout_height="wrap_content"
@@ -166,47 +125,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="invisible"
-            tools:ignore="UnusedAttribute" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_cancel_driving"
-            style="@style/FloatingBottomButton"
-            onShortBlockClick="@{() -> mapVM.stopDriving()}"
-            android:layout_marginBottom="?android:actionBarSize"
-            android:enabled="@{mapVM.liveIsDrivingStarted}"
-            android:foreground="?attr/selectableItemBackground"
-            android:text="@string/btn_cancel_driving_guide"
-            android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible"
-            tools:ignore="UnusedAttribute" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_zoom_in"
-            onShortBlockClick="@{() -> mapVM.onZoomInClick()}"
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_marginVertical="@dimen/margin_horizontal_main_activity"
-            android:background="@drawable/ic_zoom_in"
-            android:foreground="?attr/selectableItemBackground"
-            android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
-            app:layout_constraintBottom_toTopOf="@+id/tv_cancel_driving"
-            app:layout_constraintEnd_toEndOf="@+id/tv_start_driving"
-            tools:ignore="UnusedAttribute" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_zoom_out"
-            onShortBlockClick="@{() -> mapVM.onZoomOutClick()}"
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_marginVertical="@dimen/margin_horizontal_main_activity"
-            android:background="@drawable/ic_zoom_out"
-            android:foreground="?attr/selectableItemBackground"
-            android:visibility="@{mapVM.liveIsEnabledDriving &amp;&amp; mapVM.liveIsDrivingStarted ? View.VISIBLE : View.GONE, default=gone}"
-            app:layout_constraintBottom_toTopOf="@+id/tv_cancel_driving"
-            app:layout_constraintEnd_toStartOf="@+id/iv_zoom_in"
             tools:ignore="UnusedAttribute" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

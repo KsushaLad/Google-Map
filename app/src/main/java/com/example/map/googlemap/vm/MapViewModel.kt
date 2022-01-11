@@ -1,10 +1,8 @@
 package com.example.map.googlemap.vm
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.example.map.googlemap.base.ui.BaseViewModel
 import com.example.map.googlemap.data.source.DirectionRepository
 import com.example.map.googlemap.data.source.GeocodeRepository
@@ -18,22 +16,14 @@ import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.network.response.GeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse.Result.Geometry.Location
-import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
 
-class MapViewModel(
-    private val geocodeRepository: GeocodeRepository,
-    private val directionRepository: DirectionRepository
-) : BaseViewModel() {
+class MapViewModel(private val geocodeRepository: GeocodeRepository, private val directionRepository: DirectionRepository) : BaseViewModel() {
 
     private val _liveSelectPlaceType = MutableLiveData<String>()
     val liveSelectPlaceType: LiveData<String> get() = _liveSelectPlaceType //выбор тип выбранного места
     val liveAllArriveTime = MutableLiveData<String>() //время прибытия
     var zoom: Float = 16f
-    var observableDrive: Observable<Long> = Observable.interval(500, 500, TimeUnit.MILLISECONDS)
     var isAvailabilityLocation = false //доступность местоположения
-    var carMarker: Marker? = null
-    var carCurrLatLng: LatLng? = null
     var carPreviousLatLng: LatLng? = null
     var currLatLng: LatLng? = null
     private var _liveSearchType = MutableLiveData<SearchType>()
@@ -41,7 +31,6 @@ class MapViewModel(
     private var _liveIsDrivingPossible = MutableLiveData<Boolean>().apply { value = false }
     val liveIsDrivingStarted get() = _liveIsDrivingPossible
     private var _liveDirectionVO = MutableLiveData<List<DirectionVO>>()
-    val liveDirectionVO: LiveData<List<DirectionVO>> get() = _liveDirectionVO //направление
     private var _liveIsEnabledDriving =
         MutableLiveData<Boolean>().nonNull().apply { value = false }
     val liveIsEnabledDriving: LiveData<Boolean> get() = _liveIsEnabledDriving
@@ -119,25 +108,12 @@ class MapViewModel(
         )
     }
 
-    fun stopDriving() { //окончание поездки
-        _liveIsEnabledDriving.value = true
-        _liveIsDrivingPossible.value = false
-    }
-
     fun saveDirectionInfo(directionsVO: List<DirectionVO>) { //сохранение информации о направлении
         _liveDirectionVO.value = directionsVO
     }
 
     fun onSearchClick(searchType: SearchType) { //нажатие на поиск
         _liveSearchType.value = searchType
-    }
-
-    fun onZoomInClick() { //увеличить
-        zoom += 1
-    }
-
-    fun onZoomOutClick() { //уменьшить
-        zoom -= 1
     }
 
     fun setPlaceType(placeType: List<String?>?) { //задание типа места

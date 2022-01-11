@@ -16,6 +16,4 @@ class GeocodeRepository(private val remoteGeocodeDataSourceImpl: RemoteGeocodeDa
 
     override fun getPlace(address: String): Single<PlaceResponse> =
         remoteGeocodeDataSourceImpl.getPlace(address)
-
-
 }

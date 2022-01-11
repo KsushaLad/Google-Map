@@ -52,7 +52,6 @@ abstract class BaseFullSheetDialogFragment<B : ViewDataBinding>(private val layo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
     }
 
@@ -103,5 +102,4 @@ abstract class BaseFullSheetDialogFragment<B : ViewDataBinding>(private val layo
     override fun hideLoadingPopup() {
         (activity as? BaseActivity<*>)?.hideLoadingPopup()
     }
-
 }

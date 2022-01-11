@@ -22,5 +22,4 @@ sealed class NetworkState<out T> {
         fun <T> success(data: T) = Success(data)
         fun error(throwable: Throwable) = Error(throwable)
     }
-
 }

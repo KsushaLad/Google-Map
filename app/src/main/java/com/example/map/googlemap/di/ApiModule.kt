@@ -11,5 +11,4 @@ const val DI_API_NO_AUTH = "DI_API_NO_AUTH"
 val apiModule = module {
     single(named(DI_API_NO_AUTH)) { (get(named(DI_RETROFIT_NO_AUTH)) as Retrofit).create(GeocodeAPI::class.java) }
     single(named(DI_API_NO_AUTH)) { (get(named(DI_RETROFIT_NO_AUTH)) as Retrofit).create(DirectionAPI::class.java) }
-
 }

@@ -79,7 +79,7 @@
             android:layout_marginTop="@dimen/radius_shape_bage"
             android:layout_marginEnd="@dimen/margin_start_custom_toast"
             android:layout_marginBottom="@dimen/radius_shape_bage"
-            android:background="@drawable/bg_search_selector"
+            android:background="@drawable/bg_search_normal"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
