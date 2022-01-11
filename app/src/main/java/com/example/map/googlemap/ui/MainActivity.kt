@@ -63,7 +63,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     private fun cameraAtPoline(latLng: LatLng) {
-        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.5f).build()
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(12.3f).build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         mapViewModel.zoom
     }
