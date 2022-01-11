@@ -72,8 +72,13 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
+<<<<<<< HEAD
     private fun cameraAtPoline(latLng: LatLng?){
         val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.3f).build()
+=======
+    private fun cameraAtPoline(latLng: LatLng) {
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(12.3f).build()
+>>>>>>> 65677dab974ce3039a15bbd592f4b2143b51bd23
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
@@ -313,6 +318,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private fun addOneMarker(latLng: LatLng) { //добавление одного маркера
         googleMap.addMarker(MarkerOptions().position(latLng).flat(true))
     }
+<<<<<<< HEAD
 
     override fun onPolylineClick(p0: Polyline?) {
         val intent = Intent(
@@ -322,3 +328,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         startActivity(intent)
     }
 }
+=======
+}
+>>>>>>> 65677dab974ce3039a15bbd592f4b2143b51bd23
