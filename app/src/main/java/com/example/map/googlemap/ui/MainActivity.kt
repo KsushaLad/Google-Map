@@ -2,16 +2,15 @@ package com.example.map.googlemap.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
+import android.os.RemoteException
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.example.map.googlemap.R
 import com.example.map.googlemap.base.ui.BaseActivity
@@ -20,23 +19,34 @@ import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.databinding.MainActivityBinding
 import com.example.map.googlemap.extensions.dip
 import com.example.map.googlemap.extensions.enableTransparentStatusBar
+import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
 import com.example.map.googlemap.ui.dialog.SelectPlaceBottomDialog
 import com.example.map.googlemap.utils.PolylineEncoding
 import com.example.map.googlemap.vm.MapViewModel
+import com.google.android.gms.maps.*
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.search_place_dialog.*
 import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.absoluteValue
+import com.google.android.gms.maps.CameraUpdateFactory
+
+import com.google.android.gms.maps.CameraUpdate
+
+import com.google.android.gms.maps.model.LatLng
+
+
+
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
     GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener,
-    GoogleMap.OnMapLongClickListener {
+    GoogleMap.OnMapLongClickListener, GoogleMap.OnPolylineClickListener {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var locationCallback: LocationCallback
@@ -62,10 +72,9 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
-    private fun cameraAtPoline(latLng: LatLng) {
-        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.5f).build()
+    private fun cameraAtPoline(latLng: LatLng?){
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.3f).build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-        mapViewModel.zoom
     }
 
     private fun searchTypeLive() { //тип поиска в реальном времени
@@ -262,6 +271,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             googleMap.setOnMyLocationButtonClickListener(this@MainActivity)
             googleMap.setOnMyLocationClickListener(this@MainActivity)
             googleMap.setOnMapLongClickListener(this@MainActivity)
+            googleMap.setOnPolylineClickListener(this@MainActivity)
             googleMap.isMyLocationEnabled = true
         }
     }
@@ -302,5 +312,13 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
 
     private fun addOneMarker(latLng: LatLng) { //добавление одного маркера
         googleMap.addMarker(MarkerOptions().position(latLng).flat(true))
+    }
+
+    override fun onPolylineClick(p0: Polyline?) {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://maps.google.com/maps?saddr=${mapViewModel.liveStartLocationVO.value?.addressName.toString()}&daddr=${mapViewModel.liveDestinationLocationVO.value?.addressName.toString()}")
+        )
+        startActivity(intent)
     }
 }
