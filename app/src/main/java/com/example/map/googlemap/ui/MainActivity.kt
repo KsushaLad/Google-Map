@@ -24,10 +24,7 @@ import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.network.response.Route
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
 import com.example.map.googlemap.ui.dialog.SelectPlaceBottomDialog
-import com.example.map.googlemap.utils.PolylineEncoding
-import com.example.map.googlemap.utils.SET_FASTEST_INTERVAL
-import com.example.map.googlemap.utils.SET_INTERVAL
-import com.example.map.googlemap.utils.ZOOM
+import com.example.map.googlemap.utils.*
 import com.example.map.googlemap.vm.MapViewModel
 import com.google.android.gms.maps.*
 import com.tedpark.tedpermission.rx2.TedRx2Permission
@@ -107,7 +104,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     if (polylines.isNotEmpty()) {
                         drawOverViewPolyline(polylines)
                         addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                        cameraAtPoline(polylines[(polylines.size - 1) / 2], mapViewModel.zoom)
+                        cameraAtPoline(polylines[(polylines.size - 1) / 2], ZOOM)
                     } else {
                         showToast(getString(R.string.toast_no_driving_route))
                     }
@@ -219,7 +216,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                         for (location in locationResult.locations) {
                             if (latLng == null) {
                                 mapViewModel.currLatLng = LatLng(location.latitude, location.longitude)
-                                moveCamera(mapViewModel.currLatLng, mapViewModel.zoom)
+                                moveCamera(mapViewModel.currLatLng, ZOOM)
                                 animateCamera(mapViewModel.currLatLng)
                                 fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                             }
@@ -266,7 +263,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     private fun initView() { //прозрачный StatusBar
-        window.enableTransparentStatusBar()
+       window.enableTransparentStatusBar()
     }
 
     private fun initMap() { //инициализация карты
@@ -278,7 +275,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     override fun onMapReady(googleMap: GoogleMap?) { //готовность карты
         googleMap?.let {
             this.googleMap = it
-            googleMap.setPadding(dip(30), dip(70), dip(10), dip(70))
+            googleMap.setPadding(dip(DIP_30), dip(DIP_70), dip(DIP_10), dip(DIP_70))
             checkPermissions()
         }
     }

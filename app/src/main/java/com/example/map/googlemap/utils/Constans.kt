@@ -7,8 +7,14 @@ const val TIME_OUT = 30_000L
 const val SET_INTERVAL = 10000L
 const val SET_FASTEST_INTERVAL = 5000L
 const val ZOOM = 16f
+const val DIP_30 = 30
+const val DIP_70 = 70
+const val DIP_10 = 10
+const val PAGE_SIZE = 10
+
 const val DI_PREF_UTILS = "DI_PREF_UTILS"
 const val REQUEST_SEARCH_TYPE = "REQUEST_SEARCH_TYPE"
+const val PREF_KEY_SEARCH_LOCATION_LIST = "PREF_KEY_SEARCH_LOCATION_LIST"
 
 const val DIRECTIONS: String = "directions/json"
 const val GEOCODE: String = "geocode/json"
@@ -43,4 +49,11 @@ const val GLOBAL_CODE: String = "global_code"
 const val NEXT_PAGE_TOKEN: String = "next_page_token"
 const val NAME: String = "name"
 
+const val KEY: String = "key"
+const val LANGUAGE: String = "language"
 
+const val ADDRESS: String = "address"
+const val LATLNG: String = "latlng"
+const val ORIGIN: String = "origin"
+const val DESTINATION: String = "destination"
+const val EMPTY_KEYWORD: String = "empty keyword"

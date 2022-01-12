@@ -9,10 +9,6 @@ class PrefUtils(context: Context) {
 
     private fun getSecureEdit() = secureSharedPref.edit()
 
-    companion object {
-        const val PREF_KEY_SEARCH_LOCATION_LIST = "PREF_KEY_SEARCH_LOCATION_LIST"
-    }
-
     fun saveLocations(locationListToJsonString: String) {
         getSecureEdit().putString(PREF_KEY_SEARCH_LOCATION_LIST, locationListToJsonString).apply()
     }

@@ -1,6 +1,5 @@
 package com.example.map.googlemap.ui.dialog
 
-
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,7 +25,6 @@ import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.utils.REQUEST_SEARCH_TYPE
 import com.example.map.googlemap.vm.SearchLocationViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class SearchPlaceDialog :
     BaseFullSheetDialogFragment<SearchPlaceDialogBinding>(R.layout.search_place_dialog) {

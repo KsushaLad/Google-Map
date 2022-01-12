@@ -1,9 +1,7 @@
 package com.example.map.googlemap.di
 
 import com.example.map.googlemap.BuildConfig
-import com.example.map.googlemap.utils.DI_RETROFIT_NO_AUTH
-import com.example.map.googlemap.utils.DI_RETROFIT_NO_AUTH_CLIENT
-import com.example.map.googlemap.utils.TIME_OUT
+import com.example.map.googlemap.utils.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.module.Module
@@ -15,7 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
 
 val networkModule: Module = module {
     factory {
@@ -32,11 +29,11 @@ val networkModule: Module = module {
                     url(
                         original.url().newBuilder().apply {
                             addQueryParameter(
-                                "key",
+                                KEY,
                                 BuildConfig.GOOGLE_SECRET_KEY
                             )
                             addQueryParameter(
-                                "language",
+                                LANGUAGE,
                                 BuildConfig.LANGUAGE
                             )
                         }.build()

@@ -12,6 +12,8 @@ import com.example.map.googlemap.data.source.SearchPlaceDataSourceFactory
 import com.example.map.googlemap.data.source.vo.LocationVO
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.PlaceResponse
+import com.example.map.googlemap.utils.EMPTY_KEYWORD
+import com.example.map.googlemap.utils.PAGE_SIZE
 
 class SearchLocationViewModel(
     private val geocodeRepository: GeocodeRepository,
@@ -31,10 +33,10 @@ class SearchLocationViewModel(
         liveSearchItems.value = LivePagedListBuilder(
             SearchPlaceDataSourceFactory(
                 geocodeRepository,
-                liveKeyword.value  ?: error("empty keyword"),
+                liveKeyword.value  ?: error(EMPTY_KEYWORD),
                 _livePlaceState,
                 compositeDisposable
-            ), 10
+            ), PAGE_SIZE
         ).setBoundaryCallback(object : PagedList.BoundaryCallback<PlaceResponse.ResultPlaceResponse>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()

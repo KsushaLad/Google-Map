@@ -65,9 +65,9 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
             width = size.x
             text = msg
             val colorId = if (error) {
-                R.color.error
+                R.color.violet_shape_badge
             } else {
-                R.color.point_5FA9D0
+                R.color.error
             }
             setBackgroundColor(ResourcesCompat.getColor(resources, colorId, theme))
         }

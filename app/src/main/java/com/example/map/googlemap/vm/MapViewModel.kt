@@ -23,7 +23,6 @@ class MapViewModel(private val geocodeRepository: GeocodeRepository, private val
     private val _liveSelectPlaceType = MutableLiveData<String>()
     val liveSelectPlaceType: LiveData<String> get() = _liveSelectPlaceType //выбор тип выбранного места
     val liveAllArriveTime = MutableLiveData<String>() //время прибытия
-    var zoom: Float = 16f
     var isAvailabilityLocation = false //доступность местоположения
     var carPreviousLatLng: LatLng? = null
     var currLatLng: LatLng? = null
