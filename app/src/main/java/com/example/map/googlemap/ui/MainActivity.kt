@@ -266,7 +266,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     private fun initView() { //прозрачный StatusBar
-       window.enableTransparentStatusBar()
+        window.enableTransparentStatusBar()
     }
 
     private fun initMap() { //инициализация карты
