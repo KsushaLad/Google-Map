@@ -11,9 +11,9 @@ class SearchPlaceDataSourceFactory(
     private val keyword: String,
     private val livePlaceState: MutableLiveData<NetworkState<PlaceResponse>>,
     private val compositeDisposable: CompositeDisposable
-) : DataSource.Factory<String, PlaceResponse.Result>() {
+) : DataSource.Factory<String, PlaceResponse.ResultPlaceResponse>() {
 
-    override fun create(): DataSource<String, PlaceResponse.Result> {
+    override fun create(): DataSource<String, PlaceResponse.ResultPlaceResponse> {
         return SearchPlaceDataSource(geocodeRepository, keyword, livePlaceState, compositeDisposable)
     }
 }

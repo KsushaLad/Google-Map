@@ -6,6 +6,8 @@ import com.example.map.googlemap.data.source.LocalSearchPlaceRepository
 import com.example.map.googlemap.data.source.local.RecentSearchDataSourceImpl
 import com.example.map.googlemap.data.source.remote.RemoteDirectionDataSourceImpl
 import com.example.map.googlemap.data.source.remote.RemoteGeocodeDataSourceImpl
+import com.example.map.googlemap.utils.DI_API_NO_AUTH
+import com.example.map.googlemap.utils.DI_PREF_UTILS
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 

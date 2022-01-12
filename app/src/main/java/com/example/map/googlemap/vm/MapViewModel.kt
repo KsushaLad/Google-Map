@@ -16,6 +16,7 @@ import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.network.response.GeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse.Result.Geometry.Location
+import com.google.android.gms.maps.GoogleMap
 
 class MapViewModel(private val geocodeRepository: GeocodeRepository, private val directionRepository: DirectionRepository) : BaseViewModel() {
 

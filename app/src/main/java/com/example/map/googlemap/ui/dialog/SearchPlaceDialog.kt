@@ -1,14 +1,12 @@
 package com.example.map.googlemap.ui.dialog
 
-import android.content.Context
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,8 +23,8 @@ import com.example.map.googlemap.databinding.SearchPlaceDialogBinding
 import com.example.map.googlemap.extensions.showKeyboard
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.PlaceResponse
+import com.example.map.googlemap.utils.REQUEST_SEARCH_TYPE
 import com.example.map.googlemap.vm.SearchLocationViewModel
-import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -151,17 +149,15 @@ class SearchPlaceDialog :
     }
 
     companion object {
-        private const val REQUEST_SEARCH_TYPE = "REQUEST_SEARCH_TYPE"
-
-        val POST_COMPARATOR = object : DiffUtil.ItemCallback<PlaceResponse.Result>() {
+        val POST_COMPARATOR = object : DiffUtil.ItemCallback<PlaceResponse.ResultPlaceResponse>() {
             override fun areContentsTheSame(
-                oldItem: PlaceResponse.Result,
-                newItem: PlaceResponse.Result
+                oldItem: PlaceResponse.ResultPlaceResponse,
+                newItem: PlaceResponse.ResultPlaceResponse
             ): Boolean = oldItem == newItem
 
             override fun areItemsTheSame(
-                oldItem: PlaceResponse.Result,
-                newItem: PlaceResponse.Result
+                oldItem: PlaceResponse.ResultPlaceResponse,
+                newItem: PlaceResponse.ResultPlaceResponse
             ): Boolean = oldItem === newItem
         }
 

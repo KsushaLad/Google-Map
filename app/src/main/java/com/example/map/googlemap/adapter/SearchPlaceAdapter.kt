@@ -12,10 +12,10 @@ import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
 
 class SearchPlaceAdapter(private val onPlaceClickListener: ((LocationVO) -> Unit)? = null) :
-    PagedListAdapter<PlaceResponse.Result, RecyclerView.ViewHolder>(SearchPlaceDialog.POST_COMPARATOR) {
+    PagedListAdapter<PlaceResponse.ResultPlaceResponse, RecyclerView.ViewHolder>(SearchPlaceDialog.POST_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return object : BaseViewHolder<PlaceResponse.Result, SearchPlaceItemBinding>(R.layout.search_place_item, parent) {
+        return object : BaseViewHolder<PlaceResponse.ResultPlaceResponse, SearchPlaceItemBinding>(R.layout.search_place_item, parent) {
             init {
                 itemView.setOnClickListener {
                     val item = getItem(adapterPosition)
@@ -27,7 +27,7 @@ class SearchPlaceAdapter(private val onPlaceClickListener: ((LocationVO) -> Unit
                 }
             }
 
-            override fun onViewCreated(item: PlaceResponse.Result?) {
+            override fun onViewCreated(item: PlaceResponse.ResultPlaceResponse?) {
                 binding.run {
                     tvName.text = item?.name
                     tvAddress.text = item?.formattedAddress

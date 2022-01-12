@@ -27,6 +27,19 @@
         <item name="android:enabled">false</item>
     </style>
 
+    <style name="FloatingBottomButton2" parent="@style/H2BoldWhite">
+        <item name="elevation">5dp</item>
+        <item name="android:layout_marginEnd">35dp</item>
+        <item name="android:layout_marginStart">35dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/shape_badge_bg</item>
+        <item name="android:enabled">false</item>
+    </style>
+
     <style name="SmallButton" parent="@style/H2BoldWhite">
         <item name="android:layout_gravity">bottom</item>
         <item name="android:gravity">center</item>

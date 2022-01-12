@@ -18,7 +18,7 @@ class SearchLocationViewModel(
     private val localSearchPlaceRepository: LocalSearchPlaceRepository
 ) : BaseViewModel() {
 
-    var liveSearchItems = MutableLiveData<LiveData<PagedList<PlaceResponse.Result>>>() //элементы поиска
+    var liveSearchItems = MutableLiveData<LiveData<PagedList<PlaceResponse.ResultPlaceResponse>>>() //элементы поиска
     val liveLocalLocations = MutableLiveData<List<LocationVO>>() //локальное местоположение
     private val _livePlaceState = MutableLiveData<NetworkState<PlaceResponse>>()
     val livePlaceState: LiveData<NetworkState<PlaceResponse>> get() = _livePlaceState //состояние места
@@ -35,7 +35,7 @@ class SearchLocationViewModel(
                 _livePlaceState,
                 compositeDisposable
             ), 10
-        ).setBoundaryCallback(object : PagedList.BoundaryCallback<PlaceResponse.Result>() {
+        ).setBoundaryCallback(object : PagedList.BoundaryCallback<PlaceResponse.ResultPlaceResponse>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
                 _liveIsResultZero.value = true

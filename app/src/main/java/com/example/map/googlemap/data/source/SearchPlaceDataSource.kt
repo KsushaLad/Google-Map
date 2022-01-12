@@ -10,12 +10,12 @@ class SearchPlaceDataSource(
     private val geocodeRepository: GeocodeRepository,
     private val keyword: String,
     private val livePlaceState: MutableLiveData<NetworkState<PlaceResponse>>,
-    private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<String, PlaceResponse.Result>(
+    private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<String, PlaceResponse.ResultPlaceResponse>(
     ) {
 
     override fun loadInitial(
             params: LoadInitialParams<String>,
-            callback: LoadInitialCallback<String, PlaceResponse.Result>
+            callback: LoadInitialCallback<String, PlaceResponse.ResultPlaceResponse>
         ) {
             keyword.let {
                 geocodeRepository.getPlace(it)
@@ -36,7 +36,7 @@ class SearchPlaceDataSource(
 
         override fun loadAfter(
             params: LoadParams<String>,
-            callback: LoadCallback<String, PlaceResponse.Result>
+            callback: LoadCallback<String, PlaceResponse.ResultPlaceResponse>
         ) {
             keyword.let {
                 geocodeRepository.getPlace(it)
@@ -57,6 +57,6 @@ class SearchPlaceDataSource(
 
         override fun loadBefore(
             params: LoadParams<String>,
-            callback: LoadCallback<String, PlaceResponse.Result>
+            callback: LoadCallback<String, PlaceResponse.ResultPlaceResponse>
         ) { }
     }

@@ -7,7 +7,6 @@ import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
-import android.os.RemoteException
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
@@ -22,9 +21,13 @@ import com.example.map.googlemap.extensions.enableTransparentStatusBar
 import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
+import com.example.map.googlemap.network.response.Route
 import com.example.map.googlemap.ui.dialog.SearchPlaceDialog
 import com.example.map.googlemap.ui.dialog.SelectPlaceBottomDialog
 import com.example.map.googlemap.utils.PolylineEncoding
+import com.example.map.googlemap.utils.SET_FASTEST_INTERVAL
+import com.example.map.googlemap.utils.SET_INTERVAL
+import com.example.map.googlemap.utils.ZOOM
 import com.example.map.googlemap.vm.MapViewModel
 import com.google.android.gms.maps.*
 import com.tedpark.tedpermission.rx2.TedRx2Permission
@@ -32,15 +35,8 @@ import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.search_place_dialog.*
 import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.absoluteValue
 import com.google.android.gms.maps.CameraUpdateFactory
-
-import com.google.android.gms.maps.CameraUpdate
-
 import com.google.android.gms.maps.model.LatLng
-
-
-
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -72,13 +68,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
-<<<<<<< HEAD
-    private fun cameraAtPoline(latLng: LatLng?){
-        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.3f).build()
-=======
-    private fun cameraAtPoline(latLng: LatLng) {
-        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(12.3f).build()
->>>>>>> 65677dab974ce3039a15bbd592f4b2143b51bd23
+    private fun cameraAtPoline(latLng: LatLng?, zoom: Float){
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.4f).build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
@@ -116,7 +107,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     if (polylines.isNotEmpty()) {
                         drawOverViewPolyline(polylines)
                         addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                        cameraAtPoline(polylines[(polylines.size - 1) / 2])
+                        cameraAtPoline(polylines[(polylines.size - 1) / 2], mapViewModel.zoom)
                     } else {
                         showToast(getString(R.string.toast_no_driving_route))
                     }
@@ -183,7 +174,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
-    private fun getDirectionsVO(routes: List<DirectionResponse.Route?>?): MutableList<DirectionVO> { //проложение маршрута
+    private fun getDirectionsVO(routes: List<Route?>?): MutableList<DirectionVO> { //проложение маршрута
         val directionVO: MutableList<DirectionVO> = mutableListOf()
         routes?.forEach {
             it?.legs?.forEach {
@@ -215,7 +206,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     showToast(getString(R.string.desc_gps_permission))
                 }
             }) {
-
             })
     }
 
@@ -245,19 +235,13 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             }
         }
 
-        val locationRequest = LocationRequest().setInterval(10000).setFastestInterval(5000)
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-
-        fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
+        val locationRequest = LocationRequest().setInterval(SET_INTERVAL).setFastestInterval(SET_FASTEST_INTERVAL).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     private fun animateCamera(latLng: LatLng?) { //анимация камеры
         latLng?.let {
-            val cameraPosition = CameraPosition.Builder().target(it).zoom(16f).build()
+            val cameraPosition = CameraPosition.Builder().target(it).zoom(ZOOM).build()
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         } ?: throw NullPointerException(getString(R.string.error_no_location))
     }
@@ -310,6 +294,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         if (mapViewModel.liveIsDrivingStarted.value == true) return
         latLng?.let {
             addOneMarker(it)
+
             selectBottomDialog.show(supportFragmentManager, selectBottomDialog.tag)
             selectBottomDialog.searchLocation(it)
         } ?: throw NullPointerException(getString(R.string.error_no_location))
@@ -318,16 +303,11 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private fun addOneMarker(latLng: LatLng) { //добавление одного маркера
         googleMap.addMarker(MarkerOptions().position(latLng).flat(true))
     }
-<<<<<<< HEAD
 
-    override fun onPolylineClick(p0: Polyline?) {
+    override fun onPolylineClick(polyline: Polyline?) { //переход в GoogleMap
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("http://maps.google.com/maps?saddr=${mapViewModel.liveStartLocationVO.value?.addressName.toString()}&daddr=${mapViewModel.liveDestinationLocationVO.value?.addressName.toString()}")
-        )
+            Uri.parse("http://maps.google.com/maps?saddr=${mapViewModel.liveStartLocationVO.value?.addressName.toString()}&daddr=${mapViewModel.liveDestinationLocationVO.value?.addressName.toString()}"))
         startActivity(intent)
     }
 }
-=======
-}
->>>>>>> 65677dab974ce3039a15bbd592f4b2143b51bd23

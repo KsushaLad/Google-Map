@@ -1,83 +1,80 @@
 package com.example.map.googlemap.network.response
 
+import com.example.map.googlemap.utils.*
 import com.google.gson.annotations.SerializedName
-import com.example.map.googlemap.network.BaseResponse
 
 data class GeocodeResponse(
-    @SerializedName("results")
+    @SerializedName(RESULTS)
     val results: List<Result?>?,
-    @SerializedName("status")
+    @SerializedName(STATUS)
     val status: String?
-): BaseResponse {
+)
 
-    data class Result(
-        @SerializedName("address_components")
-        val addressComponents: List<AddressComponent?>?,
-        @SerializedName("formatted_address")
-        val formattedAddress: String?,
-        @SerializedName("geometry")
-        val geometry: Geometry?,
-        @SerializedName("place_id")
-        val placeId: String?,
-        @SerializedName("plus_code")
-        val plusCode: PlusCode?,
-        @SerializedName("types")
-        val types: List<String?>?
-    ) {
+data class Result(
+    @SerializedName(ADDRESS_COMPONENTS)
+    val addressComponents: List<AddressComponent?>?,
+    @SerializedName(FORMATTED_ADDRESS)
+    val formattedAddress: String?,
+    @SerializedName(GEOMETRY)
+    val geometry: Geometry?,
+    @SerializedName(PLACE_ID)
+    val placeId: String?,
+    @SerializedName(PLUS_CODE)
+    val plusCode: PlusCode?,
+    @SerializedName(TYPES)
+    val types: List<String?>?
+)
 
-        data class AddressComponent(
-            @SerializedName("long_name")
-            val longName: String?,
-            @SerializedName("short_name")
-            val shortName: String?,
-            @SerializedName("types")
-            val types: List<String?>?
-        )
+data class AddressComponent(
+    @SerializedName(LONG_NAME)
+    val longName: String?,
+    @SerializedName(SHORT_NAME)
+    val shortName: String?,
+    @SerializedName(TYPES)
+    val types: List<String?>?
+)
 
-        data class Geometry(
-            @SerializedName("location")
-            val location: Location?,
-            @SerializedName("location_type")
-            val locationType: String?,
-            @SerializedName("viewport")
-            val viewport: Viewport?
-        ) {
+data class Geometry(
+    @SerializedName(LOCATION)
+    val location: Location?,
+    @SerializedName(LOCATION_TYPE)
+    val locationType: String?,
+    @SerializedName(VIEWPORT)
+    val viewport: Viewport?
+)
 
-            data class Location(
-                @SerializedName("lat")
-                val lat: Double?,
-                @SerializedName("lng")
-                val lng: Double?
-            )
+data class Location(
+    @SerializedName(LAT)
+    val lat: Double?,
+    @SerializedName(LNG)
+    val lng: Double?
+)
 
-            data class Viewport(
-                @SerializedName("northeast")
-                val northeast: Northeast?,
-                @SerializedName("southwest")
-                val southwest: Southwest?
-            ) {
+data class Viewport(
+    @SerializedName(NORTHEAST)
+    val northeast: Northeast?,
+    @SerializedName(SOUTHWEST)
+    val southwest: Southwest?
+)
 
-                data class Northeast(
-                    @SerializedName("lat")
-                    val lat: Double?,
-                    @SerializedName("lng")
-                    val lng: Double?
-                )
+data class Northeast(
+    @SerializedName(LAT)
+    val lat: Double?,
+    @SerializedName(LNG)
+    val lng: Double?
+)
 
-                data class Southwest(
-                    @SerializedName("lat")
-                    val lat: Double?,
-                    @SerializedName("lng")
-                    val lng: Double?
-                )
-            }
-        }
+data class Southwest(
+    @SerializedName(LAT)
+    val lat: Double?,
+    @SerializedName(LNG)
+    val lng: Double?
+)
 
-        data class PlusCode(
-            @SerializedName("compound_code")
-            val compoundCode: String?,
-            @SerializedName("global_code")
-            val globalCode: String?
-        )
-    }
-}
+
+data class PlusCode(
+    @SerializedName(COMPOUND_CODE)
+    val compoundCode: String?,
+    @SerializedName(GLOBAL_CODE)
+    val globalCode: String?
+)
