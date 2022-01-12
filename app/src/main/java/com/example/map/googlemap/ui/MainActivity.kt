@@ -85,7 +85,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                         }
                         addOneMarker(locationVO.latLng)
                         moveCamera(locationVO.latLng)
-                    })
+                    }) 
                     .show(supportFragmentManager, "")
             }
         })
