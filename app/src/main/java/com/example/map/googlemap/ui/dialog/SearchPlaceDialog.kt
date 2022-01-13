@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,8 @@ import com.example.map.googlemap.network.response.PlaceResponse
 import com.example.map.googlemap.utils.REQUEST_SEARCH_TYPE
 import com.example.map.googlemap.vm.SearchLocationViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchPlaceDialog :
     BaseFullSheetDialogFragment<SearchPlaceDialogBinding>(R.layout.search_place_dialog) {
@@ -99,8 +102,10 @@ class SearchPlaceDialog :
             }
 
             etKeyword.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    searchLocationViewModel.onSearchClick()
+                lifecycleScope.launch {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        searchLocationViewModel.onSearchClick()
+                    }
                 }
                 true
             }
@@ -114,8 +119,10 @@ class SearchPlaceDialog :
                 }
 
                 override  fun afterTextChanged(p0: Editable?) {
-                    searchLocationViewModel.onSearchClick()
-                    etKeyword.showKeyboard()
+                    lifecycleScope.launch {
+                        searchLocationViewModel.onSearchClick()
+                        etKeyword.showKeyboard()
+                    }
                 }
             })
 

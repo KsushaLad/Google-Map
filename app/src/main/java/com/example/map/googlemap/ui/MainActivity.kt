@@ -7,8 +7,9 @@ import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
-import androidx.core.content.res.ResourcesCompat 
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
 import com.example.map.googlemap.R
@@ -18,6 +19,7 @@ import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.databinding.MainActivityBinding
 import com.example.map.googlemap.extensions.dip
 import com.example.map.googlemap.extensions.enableTransparentStatusBar
+import com.example.map.googlemap.extensions.showKeyboard
 import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
@@ -34,6 +36,9 @@ import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -93,19 +98,21 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private fun directionStateLive() { //прокладывание пути между двумя точками
         mapViewModel.liveDirectionState.observe(this@MainActivity, Observer {
             if (!::googleMap.isInitialized) return@Observer
-            when (it) {
-                is NetworkState.Init -> hideLoadingPopup() //скрытие загрузки всплывающего окна
-                is NetworkState.Loading -> showLoadingPopup() //показание загрузки всплывающего окна
-                is NetworkState.Success -> {
-                    val directionVO: MutableList<DirectionVO> = getDirectionsVO(it.item.routes)
-                    mapViewModel.saveDirectionInfo(directionVO)
-                    val polylines = directionVO.flatMap { it.latLng }
-                    if (polylines.isNotEmpty()) {
-                        drawOverViewPolyline(polylines)
-                        addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                        cameraAtPoline(polylines[(polylines.size - 1) / 2])
-                    } else {
-                        showToast(getString(R.string.toast_no_driving_route))
+            lifecycleScope.launch {
+                when (it) {
+                    is NetworkState.Init -> hideLoadingPopup() //скрытие загрузки всплывающего окна
+                    is NetworkState.Loading -> showLoadingPopup() //показание загрузки всплывающего окна
+                    is NetworkState.Success -> {
+                        val directionVO: MutableList<DirectionVO> = getDirectionsVO(it.item.routes)
+                        mapViewModel.saveDirectionInfo(directionVO)
+                        val polylines = directionVO.flatMap { it.latLng }
+                        if (polylines.isNotEmpty()) {
+                            drawOverViewPolyline(polylines)
+                            addStartEndMarker(polylines[0], polylines[polylines.size - 1])
+                            cameraAtPoline(polylines[(polylines.size - 1) / 2])
+                        } else {
+                            showToast(getString(R.string.toast_no_driving_route))
+                        }
                     }
                 }
             }
@@ -117,8 +124,11 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
             if (selectBottomDialog.isAdded) {
                 selectBottomDialog.onCloseClick()
             }
-            showToast(getString(R.string.toast_complete_destination))
-            mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+            lifecycleScope.launch {
+                showToast(getString(R.string.toast_complete_destination))
+                mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+            }
+
         })
     }
 
@@ -128,7 +138,10 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                 selectBottomDialog.onCloseClick()
             }
             showToast(getString(R.string.toast_complete_departure))
-            mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+            lifecycleScope.launch {
+                mapViewModel.checkToReadyDriving(mapViewModel.liveStartLocationVO.value, mapViewModel.liveDestinationLocationVO.value)
+            }
+
         })
     }
 

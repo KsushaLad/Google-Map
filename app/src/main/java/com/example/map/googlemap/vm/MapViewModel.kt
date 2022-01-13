@@ -2,6 +2,7 @@ package com.example.map.googlemap.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.model.LatLng
 import com.example.map.googlemap.base.ui.BaseViewModel
 import com.example.map.googlemap.data.source.DirectionRepository
@@ -10,6 +11,7 @@ import com.example.map.googlemap.data.source.enums.SearchType
 import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.data.source.vo.LocationVO
 import com.example.map.googlemap.extensions.nonNull
+import com.example.map.googlemap.extensions.showKeyboard
 import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
@@ -17,6 +19,8 @@ import com.example.map.googlemap.network.response.GeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse
 import com.example.map.googlemap.network.response.ReverseGeocodeResponse.Result.Geometry.Location
 import com.google.android.gms.maps.GoogleMap
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MapViewModel(private val geocodeRepository: GeocodeRepository, private val directionRepository: DirectionRepository) : BaseViewModel() {
 
