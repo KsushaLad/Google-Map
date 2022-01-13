@@ -1,5 +1,5 @@
 package com.example.map.googlemap.ui
- 
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -36,9 +36,7 @@ import kotlinx.android.synthetic.main.search_place_dialog.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     OnMapReadyCallback,
@@ -51,6 +49,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private val fusedLocationProviderClient by lazy { FusedLocationProviderClient(this) }
     private val mapViewModel by viewModel<MapViewModel>()
     private val selectBottomDialog by lazy { SelectPlaceBottomDialog.getInstance() }
+    private var job: Job = Job()
+    private var scope = CoroutineScope(Dispatchers.Main + job)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +98,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     private fun directionStateLive() { //прокладывание пути между двумя точками
         mapViewModel.liveDirectionState.observe(this@MainActivity, Observer {
             if (!::googleMap.isInitialized) return@Observer
-            lifecycleScope.launch {
+            scope.launch {
                 when (it) {
                     is NetworkState.Init -> hideLoadingPopup() //скрытие загрузки всплывающего окна
                     is NetworkState.Loading -> showLoadingPopup() //показание загрузки всплывающего окна
@@ -107,12 +107,15 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                         mapViewModel.saveDirectionInfo(directionVO)
                         val polylines = directionVO.flatMap { it.latLng }
                         if (polylines.isNotEmpty()) {
-                            drawOverViewPolyline(polylines)
-                            addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                            cameraAtPoline(polylines[(polylines.size - 1) / 2])
+                            scope.async {
+                                drawOverViewPolyline(polylines)
+                                addStartEndMarker(polylines[0], polylines[polylines.size - 1])
+                                cameraAtPoline(polylines[(polylines.size - 1) / 2])
+                            }
                         } else {
                             showToast(getString(R.string.toast_no_driving_route))
                         }
+
                     }
                 }
             }

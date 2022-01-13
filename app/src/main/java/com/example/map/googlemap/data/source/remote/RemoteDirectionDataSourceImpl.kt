@@ -8,6 +8,6 @@ import io.reactivex.Single
 
 class RemoteDirectionDataSourceImpl(private val directionAPI: DirectionAPI) : DirectionDataSource {
 
-    override fun getDriveCourse(origin: String, destination: String): Single<DirectionResponse> =
+    override  fun getDriveCourse(origin: String, destination: String): Single<DirectionResponse> =
         directionAPI.getDrivingCourse(origin, destination).networkDispatchToMainThread()
 }

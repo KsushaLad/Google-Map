@@ -1,10 +1,12 @@
 package com.example.map.googlemap.data.source
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PageKeyedDataSource
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.PlaceResponse
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 
 class SearchPlaceDataSource(
     private val geocodeRepository: GeocodeRepository,
@@ -18,6 +20,7 @@ class SearchPlaceDataSource(
             callback: LoadInitialCallback<String, PlaceResponse.ResultPlaceResponse>
         ) {
             keyword.let {
+
                 geocodeRepository.getPlace(it)
                     .doOnSubscribe { livePlaceState.postValue(NetworkState.loading()) }
                     .doOnTerminate { livePlaceState.postValue(NetworkState.init()) }
