@@ -4,7 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Location
-import android.net.Uri
+import android.net.Uri 
 import android.os.Bundle
 import android.os.Looper
 import androidx.core.content.res.ResourcesCompat
