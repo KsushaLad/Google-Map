@@ -28,9 +28,7 @@ class SearchPlaceDataSource(
                         livePlaceState.postValue(NetworkState.error(it))
                     })
             }.let {
-                compositeDisposable.add(
-                    it
-                )
+                compositeDisposable.add(it)
             }
         }
 
@@ -49,9 +47,7 @@ class SearchPlaceDataSource(
                         livePlaceState.postValue(NetworkState.error(it))
                     })
             }.let {
-                compositeDisposable.add(
-                    it
-                )
+                compositeDisposable.add(it)
             }
         }
 

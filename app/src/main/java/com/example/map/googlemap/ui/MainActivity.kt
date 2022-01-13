@@ -65,8 +65,8 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         }
     }
 
-    private fun cameraAtPoline(latLng: LatLng?, zoom: Float){
-        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(13.4f).build()
+    private fun cameraAtPoline(latLng: LatLng?){
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(ZOOM_POLINE).build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
@@ -85,8 +85,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                         }
                         addOneMarker(locationVO.latLng)
                         moveCamera(locationVO.latLng)
-                    }) 
-                    .show(supportFragmentManager, "")
+                    }).show(supportFragmentManager, "")
             }
         })
     }
@@ -104,7 +103,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
                     if (polylines.isNotEmpty()) {
                         drawOverViewPolyline(polylines)
                         addStartEndMarker(polylines[0], polylines[polylines.size - 1])
-                        cameraAtPoline(polylines[(polylines.size - 1) / 2], ZOOM)
+                        cameraAtPoline(polylines[(polylines.size - 1) / 2])
                     } else {
                         showToast(getString(R.string.toast_no_driving_route))
                     }
@@ -227,8 +226,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
 
             override fun onLocationAvailability(locationAvailability: LocationAvailability?) { //по доступности местоположения
                 super.onLocationAvailability(locationAvailability)
-                mapViewModel.isAvailabilityLocation =
-                    locationAvailability?.isLocationAvailable ?: false
+                mapViewModel.isAvailabilityLocation = locationAvailability?.isLocationAvailable ?: false
             }
         }
 
@@ -291,7 +289,6 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
         if (mapViewModel.liveIsDrivingStarted.value == true) return
         latLng?.let {
             addOneMarker(it)
-
             selectBottomDialog.show(supportFragmentManager, selectBottomDialog.tag)
             selectBottomDialog.searchLocation(it)
         } ?: throw NullPointerException(getString(R.string.error_no_location))
@@ -302,8 +299,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity),
     }
 
     override fun onPolylineClick(polyline: Polyline?) { //переход в GoogleMap
-        val intent = Intent(
-            Intent.ACTION_VIEW,
+        val intent = Intent(Intent.ACTION_VIEW,
             Uri.parse("http://maps.google.com/maps?saddr=${mapViewModel.liveStartLocationVO.value?.addressName.toString()}&daddr=${mapViewModel.liveDestinationLocationVO.value?.addressName.toString()}"))
         startActivity(intent)
     }

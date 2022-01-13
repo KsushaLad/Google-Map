@@ -11,6 +11,8 @@ const val DIP_30 = 30
 const val DIP_70 = 70
 const val DIP_10 = 10
 const val PAGE_SIZE = 10
+const val ZOOM_POLINE = 13.4f
+const val DIM_AMOUNT = 0.5f
 
 const val DI_PREF_UTILS = "DI_PREF_UTILS"
 const val REQUEST_SEARCH_TYPE = "REQUEST_SEARCH_TYPE"

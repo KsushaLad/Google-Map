@@ -4,7 +4,7 @@ import android.view.WindowManager
 import com.example.map.googlemap.R
 import com.example.map.googlemap.base.ui.BaseDialogFragment
 import com.example.map.googlemap.databinding.LoadingDialogBinding
-
+import com.example.map.googlemap.utils.DIM_AMOUNT
 
 class LoadingDialog : BaseDialogFragment<LoadingDialogBinding>(R.layout.loading_dialog) {
 
@@ -12,7 +12,7 @@ class LoadingDialog : BaseDialogFragment<LoadingDialogBinding>(R.layout.loading_
         super.onStart()
         val window = requireDialog().window
         val windowParams = window!!.attributes
-        windowParams.dimAmount = 0.5f
+        windowParams.dimAmount = DIM_AMOUNT
         windowParams.flags = windowParams.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
         window.attributes = windowParams
     }

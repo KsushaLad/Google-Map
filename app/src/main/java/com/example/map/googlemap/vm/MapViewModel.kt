@@ -21,31 +21,44 @@ import com.google.android.gms.maps.GoogleMap
 class MapViewModel(private val geocodeRepository: GeocodeRepository, private val directionRepository: DirectionRepository) : BaseViewModel() {
 
     private val _liveSelectPlaceType = MutableLiveData<String>()
+
     val liveSelectPlaceType: LiveData<String> get() = _liveSelectPlaceType //выбор тип выбранного места
+
     val liveAllArriveTime = MutableLiveData<String>() //время прибытия
+
     var isAvailabilityLocation = false //доступность местоположения
+
     var carPreviousLatLng: LatLng? = null
+
     var currLatLng: LatLng? = null
+
     private var _liveSearchType = MutableLiveData<SearchType>()
     val liveSearchType: LiveData<SearchType> get() = _liveSearchType //тип поиска
+
     private var _liveIsDrivingPossible = MutableLiveData<Boolean>().apply { value = false }
     val liveIsDrivingStarted get() = _liveIsDrivingPossible
+
     private var _liveDirectionVO = MutableLiveData<List<DirectionVO>>()
-    private var _liveIsEnabledDriving =
-        MutableLiveData<Boolean>().nonNull().apply { value = false }
+
+    private var _liveIsEnabledDriving = MutableLiveData<Boolean>().nonNull().apply { value = false }
     val liveIsEnabledDriving: LiveData<Boolean> get() = _liveIsEnabledDriving
+
     private var _liveStartLocationVO = MutableLiveData<LocationVO>()
     val liveStartLocationVO: LiveData<LocationVO> get() = _liveStartLocationVO
+
     private var _liveDestinationLocationVO = MutableLiveData<LocationVO>()
     val liveDestinationLocationVO: LiveData<LocationVO> get() = _liveDestinationLocationVO
+
     private val _liveGeocodeState =
         MutableLiveData<NetworkState<GeocodeResponse>>().apply { value = NetworkState.init() }
     val liveGeocodeState: LiveData<NetworkState<GeocodeResponse>> get() = _liveGeocodeState //состояние геокодирования
+
     private val _liveReverseGeocodeState =
         MutableLiveData<NetworkState<ReverseGeocodeResponse>>().apply {
             value = NetworkState.init()
         }
     val liveReverseGeocodeState: LiveData<NetworkState<ReverseGeocodeResponse>> get() = _liveReverseGeocodeState //состояние обратного геокодирования
+
     private val _liveDirectionState =
         MutableLiveData<NetworkState<DirectionResponse>>().apply { value = NetworkState.init() }
     val liveDirectionState: LiveData<NetworkState<DirectionResponse>> get() = _liveDirectionState //состояние направления

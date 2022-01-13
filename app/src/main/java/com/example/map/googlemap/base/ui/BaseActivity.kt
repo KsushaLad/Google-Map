@@ -34,7 +34,8 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         layoutInflater.inflate(
             R.layout.custom_toast,
             binding.root as ViewGroup,
-            false)
+            false
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +66,7 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
             width = size.x
             text = msg
             val colorId = if (error) {
-                R.color.violet_shape_badge
+                R.color.primary_400
             } else {
                 R.color.error
             }
