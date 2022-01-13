@@ -18,7 +18,7 @@ import com.example.map.googlemap.data.source.vo.DirectionVO
 import com.example.map.googlemap.databinding.MainActivityBinding
 import com.example.map.googlemap.extensions.dip
 import com.example.map.googlemap.extensions.enableTransparentStatusBar
-import com.example.map.googlemap.extensions.toParam 
+import com.example.map.googlemap.extensions.toParam
 import com.example.map.googlemap.network.NetworkState
 import com.example.map.googlemap.network.response.DirectionResponse
 import com.example.map.googlemap.network.response.Route

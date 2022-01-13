@@ -18,8 +18,6 @@ const val DI_PREF_UTILS = "DI_PREF_UTILS"
 const val REQUEST_SEARCH_TYPE = "REQUEST_SEARCH_TYPE"
 const val PREF_KEY_SEARCH_LOCATION_LIST = "PREF_KEY_SEARCH_LOCATION_LIST"
 
-const val DIRECTIONS: String = "directions/json"
-const val GEOCODE: String = "geocode/json"
 
 const val ROUTES: String = "routes"
 const val LEGS: String = "legs"
