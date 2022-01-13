@@ -7,7 +7,7 @@ import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat 
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
