@@ -13,6 +13,7 @@ abstract class BaseViewHolder<ITEM : Any, B : ViewDataBinding>(
     parent: ViewGroup?)
     : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(layoutRes, parent, false)) {
 
+    // TODO избавится от !!
     protected var binding: B = DataBindingUtil.bind(itemView)!!
 
     fun onBindViewHolder(item: Any?) = try {

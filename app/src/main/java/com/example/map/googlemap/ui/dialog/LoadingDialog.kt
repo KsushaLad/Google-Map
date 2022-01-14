@@ -8,6 +8,7 @@ import com.example.map.googlemap.utils.DIM_AMOUNT
 
 class LoadingDialog : BaseDialogFragment<LoadingDialogBinding>(R.layout.loading_dialog) {
 
+    // TODO надо убрать !!, при помощи let
     override fun onStart() {
         super.onStart()
         val window = requireDialog().window

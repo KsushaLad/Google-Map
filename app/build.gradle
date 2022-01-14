@@ -70,6 +70,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:17.0.0"
     implementation "com.google.android.libraries.places:places:2.5.0"
     implementation "gun0912.ted:tedpermission-rx2:2.2.3"
+
+//     TODO если ты уже тянешь эту зависимость, то надо тянуть актуальную androidx.paging:paging-runtime
     implementation "android.arch.paging:runtime:2.1.2"
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'

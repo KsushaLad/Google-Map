@@ -11,6 +11,7 @@ import com.example.map.googlemap.utils.DI_PREF_UTILS
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+//TODO зачем столько репозьториев, если можно было совместить все в 2, один для работы с локальными данными, другой для работы с удаленными
 val dataSourceModel = module {
     single { RemoteGeocodeDataSourceImpl(get(named(DI_API_NO_AUTH))) }
     single { GeocodeRepository(get()) }

@@ -28,6 +28,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
+        <!-- TODO ConstraintLayout в ConstraintLayout Это не лучшее решение, он для того и
+                создан, чтобы не делать такие вложености-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search"
             android:layout_width="@dimen/width_main_activity"

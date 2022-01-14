@@ -11,6 +11,7 @@ import retrofit2.http.Query
 
 interface GeocodeAPI {
 
+    // TODO companion object лучше закидывать в самый низ класса
     companion object{
         const val geocode = "geocode/json"
     }

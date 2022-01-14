@@ -44,6 +44,9 @@ class SearchPlaceDialog :
             })
     }
 
+
+    // TODO зачем это делать здесь, если можно вынести в отдельны класс. Это уменьшит размер этого класса и будет понятнее, что это за
+    //   адаптер такой. Переменная вынесена в отдельный класс
     private val recentAdapter by lazy { //недавний адаптер
         object : SimpleRecyclerView.Adapter<LocationVO, RecentSearchPlaceItemBinding>(
                 R.layout.recent_search_place_item,
@@ -111,6 +114,7 @@ class SearchPlaceDialog :
             }
 
             etKeyword.addTextChangedListener(object : TextWatcher{
+                // TODO пустые медо
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
 

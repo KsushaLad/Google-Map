@@ -17,6 +17,7 @@
             type="com.example.map.googlemap.base.ui.SimpleRecyclerView.Adapter" />
     </data>
 
+    <!--    TODO надо избавиться от вложеных ConstraintLayout-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

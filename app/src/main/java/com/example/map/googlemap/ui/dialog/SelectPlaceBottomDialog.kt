@@ -44,6 +44,8 @@ class SelectPlaceBottomDialog :
     }
 
     companion object {
+        // TODO не понимаю, замем тебе этот метод, если он создает простой конструктор, не использовав никакие параметры из вне.
+        //   При том, что сомпаньен сразу положит его в память, как статический объект.
         fun getInstance() = SelectPlaceBottomDialog()
     }
 }

@@ -5,6 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.map.googlemap.base.ui.SimpleRecyclerView
 
+// TODO UNCHECKED_CAST такие вещи, это не очень хорошо, потому что можно получить CastException
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter("replaceAll")
 fun RecyclerView.replaceAll(list: List<Any>?) =

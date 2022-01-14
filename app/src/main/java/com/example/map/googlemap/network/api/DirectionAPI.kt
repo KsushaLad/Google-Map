@@ -10,7 +10,8 @@ import retrofit2.http.Query
 
 interface DirectionAPI {
 
-companion object{
+    // TODO companion object лучше закидывать в самый низ класса
+    companion object {
         const val directions = "directions/json"
     }
 
@@ -18,5 +19,5 @@ companion object{
     fun getDrivingCourse(
         @Query(ORIGIN) origin: String,
         @Query(DESTINATION) destination: String
-    ) : Single<DirectionResponse>
+    ): Single<DirectionResponse>
 }

@@ -8,6 +8,6 @@ class NonNullMediatorLiveData<T> : MediatorLiveData<T>()
 
 fun <T> LiveData<T>.nonNull(): NonNullMediatorLiveData<T> {
     val mediator: NonNullMediatorLiveData<T> = NonNullMediatorLiveData()
-    mediator.addSource(this, Observer { it?.let { mediator.value = it } })
+    mediator.addSource(this) { it?.let { mediator.value = it } }
     return mediator
 }

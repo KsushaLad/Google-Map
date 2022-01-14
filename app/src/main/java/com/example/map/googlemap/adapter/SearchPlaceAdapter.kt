@@ -19,6 +19,8 @@ class SearchPlaceAdapter(private val onPlaceClickListener: ((LocationVO) -> Unit
             init {
                 itemView.setOnClickListener {
                     val item = getItem(adapterPosition)
+
+                    // TODO зачем тебе переменная location? Можно же просто item?.geometry?.location?.let { ... }
                     val location = item?.geometry?.location
                     location?.let {
                         val locationVO = LocationVO(LatLng(it.lat, it.lng), item.formattedAddress, item.name)
